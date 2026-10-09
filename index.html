@@ -56,10 +56,17 @@
     </div>
   </header>
 
-  <!-- 左側快速建築導航清單 -->
+  <!-- 左側快速建築導航清單（可拖曳移動、可縮小放大） -->
   <nav class="campus-nav" id="campus-nav">
-    <div class="nav-title">
-      <i class="fa-solid fa-compass"></i> 校園景點導覽
+    <div class="nav-title" id="nav-drag-handle" title="按住可拖曳移動此視窗">
+      <div class="nav-title-text">
+        <i class="fa-solid fa-compass"></i> 校園景點導覽
+      </div>
+      <div class="nav-controls">
+        <button id="btn-minimize-nav" class="nav-ctrl-btn" title="縮小/放大視窗">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+      </div>
     </div>
     <div class="nav-list" id="building-nav-list">
       <!-- 由 JavaScript 動態生成導航項目 -->
@@ -120,13 +127,21 @@
     </div>
   </div>
 
-  <!-- 底部操作提示與版權宣告 -->
+  <!-- 底部操作提示與版權宣告（支援點擊縮小展開，避免遮擋視線） -->
   <footer class="app-footer">
-    <div class="interaction-hint">
-      <span><i class="fa-solid fa-computer-mouse"></i> 滑鼠左鍵：旋轉視角</span>
-      <span><i class="fa-solid fa-up-down-left-right"></i> 滑鼠右鍵：平移鏡頭</span>
-      <span><i class="fa-solid fa-arrows-up-down"></i> 滾輪：放大/縮小</span>
-      <span><i class="fa-solid fa-hand-pointer"></i> 點擊建築物：查看詳細資訊與無障礙指引</span>
+    <div class="interaction-hint" id="interaction-hint">
+      <div class="hint-mini-badge" id="hint-mini-badge">
+        <i class="fa-solid fa-circle-question"></i> <span>操作說明</span>
+      </div>
+      <div class="hint-content" id="hint-content">
+        <span><i class="fa-solid fa-computer-mouse"></i> 滑鼠左鍵：旋轉視角</span>
+        <span><i class="fa-solid fa-up-down-left-right"></i> 滑鼠右鍵：平移鏡頭</span>
+        <span><i class="fa-solid fa-arrows-up-down"></i> 滾輪：放大/縮小</span>
+        <span><i class="fa-solid fa-hand-pointer"></i> 點擊建築物：查看詳細資訊與無障礙指引</span>
+      </div>
+      <button id="btn-toggle-hint" class="hint-toggle-btn" title="縮小/展開操作說明" aria-label="縮小/展開操作說明">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
     </div>
     <div class="copyright-bar">
       <span>Copyright &copy; Liyuchiutiger Gongminshen</span>

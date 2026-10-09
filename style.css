@@ -134,33 +134,98 @@ body, html {
   color: #90e0ef;
 }
 
-/* 左側快速建築導航 */
+/* 左側快速建築導航（支援拖曳移動、折疊縮小、手動自由縮放大小） */
 .campus-nav {
   position: absolute;
   top: 96px;
   left: 20px;
   z-index: 10;
-  width: 210px;
+  width: 220px;
+  min-width: 170px;
+  max-width: 480px;
+  min-height: 48px;
   max-height: calc(100vh - 170px);
-  background: rgba(13, 27, 42, 0.85);
+  background: rgba(13, 27, 42, 0.88);
   backdrop-filter: blur(12px);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  resize: both; /* 支援右下角自由拖曳縮小放大 */
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.campus-nav:hover {
+  border-color: rgba(0, 180, 216, 0.4);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.55);
+}
+
+.campus-nav.is-dragging {
+  cursor: grabbing !important;
+  opacity: 0.95;
+  box-shadow: 0 16px 45px rgba(0, 180, 216, 0.35);
+  user-select: none;
+}
+
+.campus-nav.minimized {
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  resize: none !important;
+}
+
+.campus-nav.minimized .nav-list {
+  display: none !important;
 }
 
 .nav-title {
-  padding: 14px 16px;
+  padding: 12px 14px;
   font-size: 14px;
   font-weight: 700;
   color: #90e0ef;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.nav-title-text {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  pointer-events: none;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-ctrl-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #caf0f8;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-ctrl-btn:hover {
+  background: #00b4d8;
+  color: #ffffff;
+  transform: scale(1.1);
 }
 
 .nav-list {
@@ -169,6 +234,7 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
 }
 
 .nav-list::-webkit-scrollbar {
@@ -443,26 +509,95 @@ body, html {
 }
 
 .interaction-hint {
-  background: rgba(13, 27, 42, 0.85);
-  backdrop-filter: blur(10px);
-  padding: 7px 22px;
+  background: rgba(13, 27, 42, 0.88);
+  backdrop-filter: blur(12px);
+  padding: 6px 14px 6px 20px;
   border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
-  gap: 18px;
+  align-items: center;
+  gap: 12px;
   font-size: 12px;
   color: #a0aec0;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 }
 
-.interaction-hint span {
+.hint-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: opacity 0.2s ease;
+}
+
+.hint-content span {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
-.interaction-hint i {
+.hint-content i {
   color: #00b4d8;
+}
+
+.hint-toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #caf0f8;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.hint-toggle-btn:hover {
+  background: #00b4d8;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.hint-mini-badge {
+  display: none;
+  align-items: center;
+  gap: 7px;
+  color: #90e0ef;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.hint-mini-badge i {
+  color: #00b4d8;
+  font-size: 13px;
+}
+
+/* 操作說明折疊縮小狀態（精巧微型膠囊，完全不遮擋平林溪與大橋視線） */
+.interaction-hint.minimized {
+  padding: 5px 12px;
+  gap: 8px;
+  cursor: pointer;
+  background: rgba(13, 27, 42, 0.92);
+}
+
+.interaction-hint.minimized:hover {
+  border-color: #00b4d8;
+  box-shadow: 0 4px 20px rgba(0, 180, 216, 0.35);
+}
+
+.interaction-hint.minimized .hint-content {
+  display: none !important;
+}
+
+.interaction-hint.minimized .hint-mini-badge {
+  display: flex !important;
 }
 
 .copyright-bar {

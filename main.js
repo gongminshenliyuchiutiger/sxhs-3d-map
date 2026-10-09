@@ -454,6 +454,9 @@ let dogGroup = null;
 let dogAnimator = null;
 const clock = new THREE.Clock();
 
+// 平林溪錦鯉生態魚群陣列
+const riverFishList = [];
+
 // 初始化應用程式
 function init() {
   const container = document.getElementById('webgl-container');
@@ -502,6 +505,9 @@ function init() {
   // 6-C. 建立雙溪高中校狗「祥祥」巡邏模型（依真實照片特徵建模）
   createCampusDog();
 
+  // 6-D. ★ 依使用者指示：平林溪水中增加大量悠游游動的錦鯉生態魚群 ★
+  buildPinglinRiverCarp();
+
   // 7. 射線拾取設定
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
@@ -510,6 +516,7 @@ function init() {
   setupUI();
   setupEventListeners();
   setupMascotDrag();
+  setupNavWindowInteractions();
 
   // 9. 動畫循環
   animate();
@@ -576,89 +583,174 @@ function buildTerrainAndRiver() {
   const roadMarkingWhite = new THREE.MeshBasicMaterial({ color: 0xf8fafc }); // 路側白線
   const walkwayBrickMat = new THREE.MeshStandardMaterial({ color: 0x7c2d12, roughness: 0.75 }); // 操場南側紅褐色步道
 
-  // (1) 溪與學校之間的雙向雙車道幹道（寬度 7.8m，保持兩輛汽車暢通會車通行！）
-  // 橫跨校園南側（自西側校門口一路直通東區宿舍與人工溼地）
-  const ringRoadSouth = new THREE.Mesh(new THREE.BoxGeometry(230, 0.12, 7.8), asphaltMat);
-  ringRoadSouth.position.set(0, 0.06, 33.5);
+  // (1) ★ 依使用者指示：梅竹蹊路西段（南北向直達校門口與大橋路口）★
+  // 自西北角彎道起點 (Z: -36) 筆直向南一路貫通至大橋路口 (Z: 33.5)，長度 69.5m
+  const meizhuStraightRoad = new THREE.Mesh(new THREE.BoxGeometry(9.6, 0.12, 69.5), asphaltMat);
+  meizhuStraightRoad.position.set(-106, 0.06, -1.25);
+  meizhuStraightRoad.receiveShadow = true;
+  roadGroup.add(meizhuStraightRoad);
+
+  // 西段梅竹蹊路中央雙黃分向實線（長 69.5m 沿 Z 軸）
+  const meizhuYellow1 = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 69.5), roadMarkingYellow);
+  meizhuYellow1.rotation.x = -Math.PI / 2;
+  meizhuYellow1.position.set(-106.12, 0.13, -1.25);
+  const meizhuYellow2 = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 69.5), roadMarkingYellow);
+  meizhuYellow2.rotation.x = -Math.PI / 2;
+  meizhuYellow2.position.set(-105.88, 0.13, -1.25);
+  roadGroup.add(meizhuYellow1, meizhuYellow2);
+
+  // 西段梅竹蹊路兩側路緣白線（在校門口路口前 Z: 28 處自然停止，絕不闖進路口交會區）
+  const meizhuWhiteW = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 64), roadMarkingWhite);
+  meizhuWhiteW.rotation.x = -Math.PI / 2;
+  meizhuWhiteW.position.set(-110.4, 0.13, -4.0);
+  const meizhuWhiteE = new THREE.Mesh(new THREE.PlaneGeometry(0.2, 64), roadMarkingWhite);
+  meizhuWhiteE.rotation.x = -Math.PI / 2;
+  meizhuWhiteE.position.set(-101.6, 0.13, -4.0);
+  roadGroup.add(meizhuWhiteW, meizhuWhiteE);
+
+  // 西側人行道鋪面（依使用者指示 media_1791526713260.png：徹底去除南側突兀伸出的長段，收束於 Z: 16，不再侵入校門口草坪）
+  const meizhuWestSidewalk = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.16, 52), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.85 }));
+  meizhuWestSidewalk.position.set(-112.0, 0.08, -10.0);
+  meizhuWestSidewalk.receiveShadow = true;
+  roadGroup.add(meizhuWestSidewalk);
+
+  // (1-B) ★ 西北角平滑連續 90 度弧形轉彎彎道（解決 media_1791525392181.png 標註的直角交叉生硬問題！）★
+  // 建立輔助幾何帶狀路面函式
+  const createCurvedRoadGeo = (curve, width, segments = 32, yOffset = 0.06) => {
+    const points = curve.getPoints(segments);
+    const vertices = [];
+    const indices = [];
+    for (let i = 0; i <= segments; i++) {
+      const p = points[i];
+      const tangent = curve.getTangent(i / segments);
+      const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
+      const left = new THREE.Vector3().copy(p).addScaledVector(normal, width / 2);
+      const right = new THREE.Vector3().copy(p).addScaledVector(normal, -width / 2);
+      vertices.push(left.x, yOffset, left.z, right.x, yOffset, right.z);
+      if (i < segments) {
+        const base = i * 2;
+        indices.push(base, base + 1, base + 2, base + 1, base + 3, base + 2);
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geo.setIndex(indices);
+    geo.computeVertexNormals();
+    return geo;
+  };
+
+  // 西北角中心轉彎曲線（自北段 X: -96, Z: -46 平滑圓弧左轉至西段 X: -106, Z: -36）
+  const cornerCenterCurve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-96, 0, -46),
+    new THREE.Vector3(-101.5, 0, -45.5),
+    new THREE.Vector3(-105.0, 0, -42.0),
+    new THREE.Vector3(-106, 0, -36)
+  ]);
+
+  // 1. 寬 9.6m 圓滑瀝青路面
+  const cornerRoadMesh = new THREE.Mesh(createCurvedRoadGeo(cornerCenterCurve, 9.6, 32, 0.06), asphaltMat);
+  cornerRoadMesh.receiveShadow = true;
+  roadGroup.add(cornerRoadMesh);
+
+  // 2. 圓滑轉彎中央雙黃線（相距 0.22m 沿曲線平滑轉彎，絕不十字交叉穿刺！）
+  const yellowCurve1 = new THREE.CatmullRomCurve3(cornerCenterCurve.getPoints(32).map((p, idx) => {
+    const tangent = cornerCenterCurve.getTangent(idx / 32);
+    const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
+    return new THREE.Vector3().copy(p).addScaledVector(normal, 0.11);
+  }));
+  const yellowCurve2 = new THREE.CatmullRomCurve3(cornerCenterCurve.getPoints(32).map((p, idx) => {
+    const tangent = cornerCenterCurve.getTangent(idx / 32);
+    const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
+    return new THREE.Vector3().copy(p).addScaledVector(normal, -0.11);
+  }));
+  const cornerYellowMesh1 = new THREE.Mesh(createCurvedRoadGeo(yellowCurve1, 0.16, 32, 0.13), roadMarkingYellow);
+  const cornerYellowMesh2 = new THREE.Mesh(createCurvedRoadGeo(yellowCurve2, 0.16, 32, 0.13), roadMarkingYellow);
+  roadGroup.add(cornerYellowMesh1, cornerYellowMesh2);
+
+  // 3. 轉彎外側人行道圓弧銜接
+  const sidewalkCurve = new THREE.CatmullRomCurve3(cornerCenterCurve.getPoints(32).map((p, idx) => {
+    const tangent = cornerCenterCurve.getTangent(idx / 32);
+    const normal = new THREE.Vector3(-tangent.z, 0, tangent.x).normalize();
+    return new THREE.Vector3().copy(p).addScaledVector(normal, 5.9);
+  }));
+  const cornerSidewalkMesh = new THREE.Mesh(createCurvedRoadGeo(sidewalkCurve, 2.2, 32, 0.08), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.85 }));
+  roadGroup.add(cornerSidewalkMesh);
+
+  // (1-C) 校園南側沿溪雙向雙車道（自校門口馬路與大橋路口 X: -106 一路筆直通往東區宿舍與人工溼地 X: 110）
+  const ringRoadSouth = new THREE.Mesh(new THREE.BoxGeometry(218, 0.12, 7.8), asphaltMat);
+  ringRoadSouth.position.set(3, 0.06, 33.5);
   ringRoadSouth.receiveShadow = true;
   roadGroup.add(ringRoadSouth);
 
-  // 雙向車道中央黃色分向虛線（明確展現兩輛汽車車道規格）
-  for (let lx = -110; lx <= 110; lx += 10) {
+  // 沿溪雙車道中央黃色分向虛線（依使用者指示：路口交會處淨空，自 X: -90 開始向東劃設，絕不伸入路口）
+  for (let lx = -90; lx <= 108; lx += 10) {
     const dashLine = new THREE.Mesh(new THREE.PlaneGeometry(5, 0.22), roadMarkingYellow);
     dashLine.rotation.x = -Math.PI / 2;
     dashLine.position.set(lx, 0.13, 33.5);
     roadGroup.add(dashLine);
   }
 
-  // 雙向車道南北兩側白色邊線
-  const edgeLineNorth = new THREE.Mesh(new THREE.PlaneGeometry(230, 0.2), roadMarkingWhite);
+  // 沿溪雙車道南北兩側白色邊線（依使用者指示：自路口東側 X: -94 開始向東延伸，絕不橫切路口形成突兀白線）
+  const edgeLineNorth = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.2), roadMarkingWhite);
   edgeLineNorth.rotation.x = -Math.PI / 2;
-  edgeLineNorth.position.set(0, 0.13, 29.8);
-  const edgeLineSouth = new THREE.Mesh(new THREE.PlaneGeometry(230, 0.2), roadMarkingWhite);
+  edgeLineNorth.position.set(9, 0.13, 29.8);
+  const edgeLineSouth = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.2), roadMarkingWhite);
   edgeLineSouth.rotation.x = -Math.PI / 2;
-  edgeLineSouth.position.set(0, 0.13, 37.2);
+  edgeLineSouth.position.set(9, 0.13, 37.2);
   roadGroup.add(edgeLineNorth, edgeLineSouth);
 
-  // (2) 校門口前迎賓大道與西側南北接駁車道（連通校門紅圈位置與南側沿溪雙車道）
-  // 校門西側迎賓大道（自校門 X: -98 往西延伸至聯外跨溪大橋 X: -138，大器拓寬至 16m，正對校門與中庭 Z: 12）
-  const gateMainAvenue = new THREE.Mesh(new THREE.BoxGeometry(40, 0.12, 16), asphaltMat);
-  gateMainAvenue.position.set(-118, 0.06, 12);
-  gateMainAvenue.receiveShadow = true;
-  roadGroup.add(gateMainAvenue);
+  // 校門迎賓廣場前方大路口平整柏油銜接面（覆蓋校門口迎賓口與大智樓西南角）
+  const gatePlazaRoadJunction = new THREE.Mesh(new THREE.BoxGeometry(18, 0.12, 28), asphaltMat);
+  gatePlazaRoadJunction.position.set(-106, 0.06, 18);
+  gatePlazaRoadJunction.receiveShadow = true;
+  roadGroup.add(gatePlazaRoadJunction);
 
-  // 西側接駁南北車道（自南側雙車道 Z: 33.5 連通至迎賓大道 Z: 12，寬度 9.5m，行車流暢寬敞）
-  const westConnRoad = new THREE.Mesh(new THREE.BoxGeometry(9.5, 0.12, 23.5), asphaltMat);
-  westConnRoad.position.set(-106, 0.06, 23.5);
-  westConnRoad.receiveShadow = true;
-  roadGroup.add(westConnRoad);
-
-  // (3) 田徑場西側南北向主幹道（教學大樓東側，北起側門，南接環校雙車道）
+  // (2) 田徑場西側南北向主幹道（教學大樓東側，北起側門，南接環校雙車道）
   const northSouthAvenue = new THREE.Mesh(new THREE.BoxGeometry(7.2, 0.12, 66), asphaltMat);
   northSouthAvenue.position.set(-27, 0.06, -2);
   northSouthAvenue.receiveShadow = true;
   roadGroup.add(northSouthAvenue);
 
-  // (4) 操場南側寬闊人行幹道（跑道南側、風雨操場北側之通道）
+  // (3) 操場南側寬闊人行幹道（跑道南側、風雨操場北側之通道）
   const trackSouthPath = new THREE.Mesh(new THREE.BoxGeometry(72, 0.13, 5), walkwayBrickMat);
   trackSouthPath.position.set(10, 0.07, 4.5);
   trackSouthPath.receiveShadow = true;
   roadGroup.add(trackSouthPath);
 
-  // (5) 東區活動中心前道路（通往男生宿舍、職務宿舍與女宿）
+  // (4) 東區活動中心前道路（通往男生宿舍、職務宿舍與女宿）
   const eastRoad = new THREE.Mesh(new THREE.BoxGeometry(7.5, 0.12, 75), asphaltMat);
   eastRoad.position.set(45, 0.06, 8);
   eastRoad.receiveShadow = true;
   roadGroup.add(eastRoad);
 
-  // (6) ★ 北側梅竹蹊路（Meizhuxi Road - 依 Google 街景照片 media_1791474604482.jpg）★
-  // 雙溪高中臨路主幹道，寬 8m，雙向雙車道
-  const meizhuxiRoad = new THREE.Mesh(new THREE.BoxGeometry(220, 0.12, 8), asphaltMat);
-  meizhuxiRoad.position.set(0, 0.06, -46);
+  // (5) ★ 北側梅竹蹊路（Meizhuxi Road - 自西北角彎道起點 X: -96 一路平順通往東側烤肉區 X: 110）★
+  // 雙溪高中臨路主幹道，寬 8m，長度 206m（中心位於 X: 7）
+  const meizhuxiRoad = new THREE.Mesh(new THREE.BoxGeometry(206, 0.12, 8), asphaltMat);
+  meizhuxiRoad.position.set(7, 0.06, -46);
   meizhuxiRoad.receiveShadow = true;
   roadGroup.add(meizhuxiRoad);
 
-  // 梅竹蹊路中央雙黃實線（長 220m，相距 0.22m 的雙黃線）
-  const doubleYellow1 = new THREE.Mesh(new THREE.PlaneGeometry(220, 0.15), roadMarkingYellow);
+  // 梅竹蹊路中央雙黃實線（長 206m，自 X: -96 直通東端）
+  const doubleYellow1 = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.15), roadMarkingYellow);
   doubleYellow1.rotation.x = -Math.PI / 2;
-  doubleYellow1.position.set(0, 0.13, -46.12);
-  const doubleYellow2 = new THREE.Mesh(new THREE.PlaneGeometry(220, 0.15), roadMarkingYellow);
+  doubleYellow1.position.set(7, 0.13, -46.12);
+  const doubleYellow2 = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.15), roadMarkingYellow);
   doubleYellow2.rotation.x = -Math.PI / 2;
-  doubleYellow2.position.set(0, 0.13, -45.88);
+  doubleYellow2.position.set(7, 0.13, -45.88);
   roadGroup.add(doubleYellow1, doubleYellow2);
 
   // 梅竹蹊路外側邊界白線
-  const meizhuWhiteN = new THREE.Mesh(new THREE.PlaneGeometry(220, 0.18), roadMarkingWhite);
+  const meizhuWhiteN = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.18), roadMarkingWhite);
   meizhuWhiteN.rotation.x = -Math.PI / 2;
-  meizhuWhiteN.position.set(0, 0.13, -49.7);
-  const meizhuWhiteS = new THREE.Mesh(new THREE.PlaneGeometry(220, 0.18), roadMarkingWhite);
+  meizhuWhiteN.position.set(7, 0.13, -49.7);
+  const meizhuWhiteS = new THREE.Mesh(new THREE.PlaneGeometry(206, 0.18), roadMarkingWhite);
   meizhuWhiteS.rotation.x = -Math.PI / 2;
-  meizhuWhiteS.position.set(0, 0.13, -42.3);
+  meizhuWhiteS.position.set(7, 0.13, -42.3);
   roadGroup.add(meizhuWhiteN, meizhuWhiteS);
 
-  // 學校臨街人行道鋪面（淺灰人行道磚，寬 2.5m）
-  const meizhuSidewalk = new THREE.Mesh(new THREE.BoxGeometry(220, 0.16, 2.5), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.85 }));
-  meizhuSidewalk.position.set(0, 0.08, -40.8);
+  // 學校臨街人行道鋪面（淺灰人行道磚，寬 2.5m，長 206m）
+  const meizhuSidewalk = new THREE.Mesh(new THREE.BoxGeometry(206, 0.16, 2.5), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.85 }));
+  meizhuSidewalk.position.set(7, 0.08, -40.8);
   meizhuSidewalk.receiveShadow = true;
   roadGroup.add(meizhuSidewalk);
 
@@ -714,26 +806,26 @@ function buildTerrainAndRiver() {
 
   scene.add(roadGroup);
 
-  // 3. 沿著溪邊的木棧道（Wood Boardwalk - 依使用者指示：緊鄰溪邊整條木棧道）
+  // 3. 沿著溪邊的木棧道（Wood Boardwalk - 依使用者指示：自大橋東側向東延伸，路口完全避讓，不橫截大橋！）
   const boardwalkGroup = new THREE.Group();
   const woodDeckMat = new THREE.MeshStandardMaterial({ color: 0x92400e, roughness: 0.78 }); // 溫潤防腐木質
   const woodRailingMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.82 }); // 木護欄
 
-  // (1) 沿溪木棧道主體（寬 3.0m，架高 0.18m，橫跨校園南側溪岸）
-  const boardwalkMain = new THREE.Mesh(new THREE.BoxGeometry(220, 0.18, 3.0), woodDeckMat);
-  boardwalkMain.position.set(2, 0.15, 39.5);
+  // (1) 沿溪木棧道主體（自平林溪大橋東側 X: -97 一路延伸至東區宿舍 X: 111，在大橋路口完全避讓，絕不橫切大橋路面！）
+  const boardwalkMain = new THREE.Mesh(new THREE.BoxGeometry(208, 0.18, 3.0), woodDeckMat);
+  boardwalkMain.position.set(7, 0.15, 39.5);
   boardwalkMain.receiveShadow = true;
   boardwalkGroup.add(boardwalkMain);
 
-  // (2) 木棧板刻線與間隔立柱護欄（靠溪側防護欄杆）
-  const railingBar = new THREE.Mesh(new THREE.BoxGeometry(220, 0.12, 0.15), woodRailingMat);
-  railingBar.position.set(2, 1.0, 40.9);
-  const midRailingBar = new THREE.Mesh(new THREE.BoxGeometry(220, 0.08, 0.12), woodRailingMat);
-  midRailingBar.position.set(2, 0.6, 40.9);
+  // (2) 木棧板刻線與靠溪側防護欄杆
+  const railingBar = new THREE.Mesh(new THREE.BoxGeometry(208, 0.12, 0.15), woodRailingMat);
+  railingBar.position.set(7, 1.0, 40.9);
+  const midRailingBar = new THREE.Mesh(new THREE.BoxGeometry(208, 0.08, 0.12), woodRailingMat);
+  midRailingBar.position.set(7, 0.6, 40.9);
   boardwalkGroup.add(railingBar, midRailingBar);
 
-  // 連續安全立柱（每 5 米一根）
-  for (let bx = -106; bx <= 110; bx += 5) {
+  // 連續安全立柱（自大橋東側 X: -96 至 X: 110 每 5 米一根）
+  for (let bx = -96; bx <= 110; bx += 5) {
     const post = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.95, 8), woodRailingMat);
     post.position.set(bx, 0.6, 40.9);
     boardwalkGroup.add(post);
@@ -748,23 +840,23 @@ function buildTerrainAndRiver() {
 
   scene.add(boardwalkGroup);
 
-  // 4. 平林溪（Pinglin River）蜿蜒河道（恢復適中自然寬度：半徑 15，水面寬 30m）
+  // 4. 平林溪（Pinglin River）筆直河道（依使用者指示 media_1791523834238.png：平林溪整條筆直平行於校園南側，完全不彎到校門口前面！）
   const riverCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-142, 0.15, -25),
-    new THREE.Vector3(-132, 0.15, 12),  // 穿過校門聯外大橋底下
-    new THREE.Vector3(-118, 0.15, 45),  // 轉折向東南延伸至大智樓南側
-    new THREE.Vector3(-75, 0.15, 56),   // 大智樓南側柳堤外
-    new THREE.Vector3(-35, 0.15, 55),   // 觀魚平臺木棧道外
-    new THREE.Vector3(10, 0.15, 55),    // 操場、風雨操場正南方
-    new THREE.Vector3(55, 0.15, 57),    // 男生宿舍南側
-    new THREE.Vector3(95, 0.15, 62),    // 女生宿舍與餐廳南側
-    new THREE.Vector3(130, 0.15, 70),   // 人工濕地東南角大弧形彎
-    new THREE.Vector3(145, 0.15, 25),   // 轉折向北
-    new THREE.Vector3(142, 0.15, -35),  // 烤肉區與人工濕地東側
-    new THREE.Vector3(136, 0.15, -95)   // 延伸出校園
+    new THREE.Vector3(-190, -0.09, 56),  // 筆直西向出校園
+    new THREE.Vector3(-150, -0.09, 56),  // 筆直平林溪西段（大橋西側，筆直向西流淌，完全不向北彎曲）
+    new THREE.Vector3(-105, -0.09, 56),  // 正好穿過平林溪大橋底下
+    new THREE.Vector3(-75, -0.09, 56),   // 大智樓南側柳堤外
+    new THREE.Vector3(-35, -0.09, 55),   // 觀魚平臺木棧道外
+    new THREE.Vector3(10, -0.09, 55),    // 操場、風雨操場正南方
+    new THREE.Vector3(55, -0.09, 57),    // 男生宿舍南側
+    new THREE.Vector3(95, -0.09, 62),    // 女生宿舍與餐廳南側
+    new THREE.Vector3(130, -0.09, 70),   // 人工濕地東南角大弧形彎
+    new THREE.Vector3(145, -0.09, 25),   // 轉折向北
+    new THREE.Vector3(142, -0.09, -35),  // 烤肉區與人工濕地東側
+    new THREE.Vector3(136, -0.09, -95)   // 延伸出校園
   ]);
 
-  // 河道水體（恢復適中自然寬度：半徑 15，壓平後水面寬 30 米）
+  // 河道水體（平緩清澈：半徑 15，壓平後水面頂部自然維持在 Y: -0.03，平穩流經橋下，永不淹沒路面）
   const riverGeo = new THREE.TubeGeometry(riverCurve, 100, 15, 16, false);
   const riverMat = new THREE.MeshStandardMaterial({
     color: 0x0284c7, // 清澈蔚藍水色
@@ -774,18 +866,18 @@ function buildTerrainAndRiver() {
     opacity: 0.88
   });
   const river = new THREE.Mesh(riverGeo, riverMat);
-  river.scale.set(1, 0.04, 1); // 壓平貼合地面
+  river.scale.set(1, 0.004, 1); // 壓平使水面頂部維持在 Y: -0.03
   river.receiveShadow = true;
   scene.add(river);
 
-  // 平林溪河床沙洲淺灘底座（半徑 18，自然深淺層次）
-  const riverBedGeo = new THREE.TubeGeometry(riverCurve, 100, 18, 12, false);
+  // 平林溪河床沙洲淺灘底座（半徑 17，自然深淺層次）
+  const riverBedGeo = new THREE.TubeGeometry(riverCurve, 100, 17, 12, false);
   const riverBedMat = new THREE.MeshStandardMaterial({
     color: 0x0f3b58,
     roughness: 0.9
   });
   const riverBed = new THREE.Mesh(riverBedGeo, riverBedMat);
-  riverBed.scale.set(1, 0.025, 1);
+  riverBed.scale.set(1, 0.006, 1);
   riverBed.position.y = -0.05;
   scene.add(riverBed);
 
@@ -807,9 +899,7 @@ function buildTerrainAndRiver() {
     { x: 50, z: -125, r: 60, h: 85 },
     { x: 125, z: -110, r: 65, h: 75 },
     { x: 160, z: -40, r: 50, h: 65 },
-    { x: 165, z: 30, r: 55, h: 70 },
-    { x: -175, z: -30, r: 55, h: 70 },
-    { x: -175, z: 45, r: 50, h: 60 }
+    { x: 165, z: 30, r: 55, h: 70 }
   ];
 
   mountainPositions.forEach(m => {
@@ -938,18 +1028,107 @@ function buildCampusBuildings() {
     return texture;
   };
 
-  // (1) 跨平林溪聯外大橋（進入校園的主通道，座落於校門西側，大器寬敞 16m）
-  const bridge = new THREE.Mesh(new THREE.BoxGeometry(24, 1.2, 16), materials.whiteConcrete);
-  bridge.position.set(-132, 0.6, 12);
-  bridge.receiveShadow = true;
-  gateGroup.add(bridge);
+  // (1) ★ 依使用者明確指示：平林溪大橋全段為完全平整連貫之平坦道路，徹底消除突起斜坡與接縫！★
+  // 【一體化平坦大道設計】：
+  // 1. 路面全線嚴格齊平地面道路標高 (頂面標高 Y: 0.12，中心 y: 0.06，厚度 0.12)，零落差、無斜坡、無斷層黑縫！
+  // 2. 自校門口沿溪大道 (Z: -22.5) 直通對岸南端公路 (Z: 44)，長達 66.5m 一體成型平整深灰柏油鋪面！
+  // 3. 中央雙黃分向線與兩側白線自北向南筆直貫通，跨河段兩側設置平直大氣白色安全護欄與端柱！
+  const bridgeGrp = new THREE.Group();
+  const bridgeAsphaltMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.8 });
+  const bridgeYellowLineMat = new THREE.MeshBasicMaterial({ color: 0xfacc15 });
+  const bridgeWhiteLineMat = new THREE.MeshBasicMaterial({ color: 0xf8fafc });
 
-  // 橋樑兩側白色防護安全欄杆
-  const railNorth = new THREE.Mesh(new THREE.BoxGeometry(24, 1.1, 0.6), materials.whiteConcrete);
-  railNorth.position.set(-132, 1.4, 3.7);
-  const railSouth = new THREE.Mesh(new THREE.BoxGeometry(24, 1.1, 0.6), materials.whiteConcrete);
-  railSouth.position.set(-132, 1.4, 20.3);
-  gateGroup.add(railNorth, railSouth);
+  const totalRoadLen = 66.5; // 自北路口 (z: -22.5) 至南端 (z: 44) 總長度
+  const roadCenterZ = 10.75; // 道路中心點
+
+  // 1. 底層白色混凝土承重主梁托座（僅位於跨水段 Z: -18 ~ 18，厚度 0.08m，位置 y: -0.02，支撐於路面下方）
+  const bridgeMain = new THREE.Mesh(new THREE.BoxGeometry(11.4, 0.08, 36), materials.whiteConcrete);
+  bridgeMain.position.set(0, -0.02, 0);
+  bridgeMain.receiveShadow = true;
+  bridgeGrp.add(bridgeMain);
+
+  // 2. 一體化平整深灰柏油大馬路（厚度 0.12m，頂面標高 Y: 0.12，完全平整連貫，零接縫黑線）
+  const bridgeRoad = new THREE.Mesh(new THREE.BoxGeometry(10.6, 0.12, totalRoadLen), bridgeAsphaltMat);
+  bridgeRoad.position.set(0, 0.06, roadCenterZ);
+  bridgeRoad.receiveShadow = true;
+  bridgeGrp.add(bridgeRoad);
+
+  // 3. 中央雙黃分向實線（長 66.5m 筆直貫穿全路段，標高 Y: 0.13，完全平整連續）
+  const bYellow1 = new THREE.Mesh(new THREE.PlaneGeometry(0.16, totalRoadLen), bridgeYellowLineMat);
+  bYellow1.rotation.x = -Math.PI / 2;
+  bYellow1.position.set(-0.11, 0.13, roadCenterZ);
+  const bYellow2 = new THREE.Mesh(new THREE.PlaneGeometry(0.16, totalRoadLen), bridgeYellowLineMat);
+  bYellow2.rotation.x = -Math.PI / 2;
+  bYellow2.position.set(0.11, 0.13, roadCenterZ);
+  bridgeGrp.add(bYellow1, bYellow2);
+
+  // 4. 兩側路緣邊界白線（自護欄北端端柱 z: -18 起向南延伸至南岸公路 z: 44，長 62m，路口交會處徹底淨空）
+  const bridgeWhiteLineLen = 62;
+  const bridgeWhiteLineCenterZ = 13;
+  const bWhiteW = new THREE.Mesh(new THREE.PlaneGeometry(0.18, bridgeWhiteLineLen), bridgeWhiteLineMat);
+  bWhiteW.rotation.x = -Math.PI / 2;
+  bWhiteW.position.set(-5.0, 0.13, bridgeWhiteLineCenterZ);
+  const bWhiteE = new THREE.Mesh(new THREE.PlaneGeometry(0.18, bridgeWhiteLineLen), bridgeWhiteLineMat);
+  bWhiteE.rotation.x = -Math.PI / 2;
+  bWhiteE.position.set(5.0, 0.13, bridgeWhiteLineCenterZ);
+  bridgeGrp.add(bWhiteW, bWhiteE);
+
+  // 5. 跨平林溪段白色混凝土安全防撞護欄（僅設於跨水區域長 36m，Z: -18 ~ 18，平直端正，高 0.85m）
+  const railWest = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.85, 36), materials.whiteConcrete);
+  railWest.position.set(-5.4, 0.545, 0);
+  const railEast = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.85, 36), materials.whiteConcrete);
+  railEast.position.set(5.4, 0.545, 0);
+  bridgeGrp.add(railWest, railEast);
+
+  // 6. 水中實體圓柱混凝土橋墩（依使用者指示 media_1791526809291.png：橋墩不要出來！頂端嚴格止於梁底 Y: -0.06，絕不穿透冒出路面）
+  for (let pz of [-9, 9]) {
+    const pier1 = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.95, 1.4, 16), materials.whiteConcrete);
+    pier1.position.set(-3.5, -0.76, pz);
+    const pier2 = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.95, 1.4, 16), materials.whiteConcrete);
+    pier2.position.set(3.5, -0.76, pz);
+    bridgeGrp.add(pier1, pier2);
+  }
+
+  // 7. 橋頭四角端正大器迎賓端柱（座落於護欄端點 Z: -18 與 18，底座切齊路面 Y: 0.12）
+  [[-5.4, -18.0], [5.4, -18.0], [-5.4, 18.0], [5.4, 18.0]].forEach(([px, pz]) => {
+    const post = new THREE.Mesh(new THREE.BoxGeometry(0.68, 1.0, 0.68), pebbleWallMat);
+    post.position.set(px, 0.62, pz);
+    bridgeGrp.add(post);
+  });
+
+  // 8. 市道 102 號平林溪大橋牌（立於北端橋頭東側端柱旁路邊草坪）
+  const bridgeSignPole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.4, 8), materials.railingMetal);
+  bridgeSignPole.position.set(6.4, 1.2, -18.5);
+  const bridgeSignBoard = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.85, 0.08), new THREE.MeshStandardMaterial({ color: 0x1e3a8a, roughness: 0.3 }));
+  bridgeSignBoard.position.set(6.4, 2.2, -18.5);
+  bridgeGrp.add(bridgeSignPole, bridgeSignBoard);
+
+  // 定位於校門口馬路路口正前方：正南北向跨越平林溪主流
+  bridgeGrp.position.set(-106, 0, 56);
+  gateGroup.add(bridgeGrp);
+
+  // ★ 校門口迎賓大道標準行人穿越斑馬線（依衛星圖路口特徵）★
+  const zebraGrp = new THREE.Group();
+  for (let zx = -4.5; zx <= 4.5; zx += 1.3) {
+    const stripe = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 4.2), bridgeWhiteLineMat);
+    stripe.rotation.x = -Math.PI / 2;
+    stripe.position.set(zx, 0.14, 0);
+    zebraGrp.add(stripe);
+  }
+  zebraGrp.position.set(-106, 0, 20);
+  gateGroup.add(zebraGrp);
+
+  // ★ 雙溪高中公車候車亭（依衛星圖上標示之雙溪高中站點）★
+  const busShelter = new THREE.Group();
+  const busRoof = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.16, 2.2), gateBlue);
+  busRoof.position.set(0, 2.6, 0);
+  const busGlass = new THREE.Mesh(new THREE.BoxGeometry(5.0, 2.2, 0.1), new THREE.MeshStandardMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.6 }));
+  busGlass.position.set(0, 1.3, -0.9);
+  const busBench = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.45, 0.6), pebbleWallMat);
+  busBench.position.set(0, 0.35, -0.4);
+  busShelter.add(busRoof, busGlass, busBench);
+  busShelter.position.set(-84, 0, 38.0);
+  gateGroup.add(busShelter);
 
   // (2) 校門內側迎賓大圓形拼花地坪廣場（使用者指示：校門口沒這麼小！直徑擴大至 24m）
   const gatePlazaFloor = new THREE.Mesh(new THREE.CylinderGeometry(12, 12, 0.14, 36), new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.7 }));
@@ -1107,8 +1286,8 @@ function buildCampusBuildings() {
   nameWallGroup.position.set(-100, 0, -4.5);
   gateGroup.add(nameWallGroup);
 
-  // (7) 柳堤景觀垂柳樹（整齊排列於南側木棧道外側河岸邊，不占用車道）
-  for (let wx = -105; wx <= -52; wx += 14) {
+  // (7) 柳堤景觀垂柳樹（依使用者指示 media_1791526809291.png：整齊排列於大橋以東河岸，絕不長在橋上或橋面）
+  for (let wx = -92; wx <= -52; wx += 14) {
     const willow = createTree(2.2, 4.2);
     willow.position.set(wx, 0, 42.5);
     gateGroup.add(willow);
@@ -1614,26 +1793,13 @@ function buildCampusBuildings() {
   midSouthFacade.position.set(0, 0, 6.8);
   midBlockGrp.add(midSouthFacade);
 
-  // 中棟屋頂朱紅瓦坡頂與屋脊飾條
-  const midRoof = new THREE.Mesh(new THREE.BoxGeometry(18.8, 1.4, 14.8), materials.pitchedRedRoof);
+  // 中棟屋頂朱紅瓦坡頂
+  const midRoof = new THREE.Mesh(new THREE.BoxGeometry(18.0, 1.4, 14.8), materials.pitchedRedRoof);
   midRoof.position.set(0, 8.95, 0);
-  const midRidge = new THREE.Mesh(new THREE.BoxGeometry(19.0, 0.45, 0.6), materials.pitchedRedRidge);
-  midRidge.position.set(0, 9.8, 0);
-  midBlockGrp.add(midRoof, midRidge);
+  midBlockGrp.add(midRoof);
 
   midBlockGrp.position.set(-1, 8.25, 0);
   complexGroup.add(midBlockGrp);
-
-  // 中棟與西棟屋頂整齊排列之深藍黑太陽能光電板
-  for (let sx = -24; sx <= 6; sx += 3.6) {
-    for (let sz = -4.5; sz <= 4.5; sz += 3.0) {
-      const panel = new THREE.Mesh(new THREE.BoxGeometry(3.0, 0.12, 2.3), materials.solarPanelMat);
-      panel.position.set(sx, 17.8, sz);
-      const pFrame = new THREE.Mesh(new THREE.BoxGeometry(3.15, 0.08, 2.45), materials.solarFrameMat);
-      pFrame.position.set(sx, 17.75, sz);
-      complexGroup.add(panel, pFrame);
-    }
-  }
 
   // (3) ★★★ 東側標誌性核心主館（朝向梅竹蹊路馬路之經典旗艦立面）★★★
   // 寬 17m, 高 18.5m, 深 15m，局部 X: 16.5（臨教學大樓東側）
@@ -1641,40 +1807,19 @@ function buildCampusBuildings() {
   const eastCore = new THREE.Mesh(new THREE.BoxGeometry(17, 18.5, 14.6), complexWallMat);
   eastHallGrp.add(eastCore);
 
-  // 頂部拱弧形優雅挑高雙坡瓦頂（依街景照片：頂棚為紅瓦，南北兩端山牆端面為米黃外牆，簷口深紅收邊）
+  // 頂部拱弧形優雅挑高雙坡瓦頂（依街景照片：頂棚為紅瓦，南北兩端山牆端面為米黃外牆）
   const eastRoofGeo = new THREE.CylinderGeometry(8.6, 8.6, 17.2, 32, 1, false, 0, Math.PI);
   // Three.js CylinderGeometry 材質陣列：[側弧面, 底面1, 底面2]
   const archRoofMaterials = [
     materials.pitchedRedRoof, // 側弧面：鮮豔朱紅瓦坡頂棚
-    complexWallMat,           // 北端山牆面：米黃面磚山牆（絕非突兀大紅半圓！）
+    complexWallMat,           // 北端山牆面：米黃面磚山牆
     complexWallMat            // 南端山牆面：米黃面磚山牆
   ];
   const eastRoof = new THREE.Mesh(eastRoofGeo, archRoofMaterials);
   eastRoof.rotation.z = Math.PI / 2;
   eastRoof.rotation.y = Math.PI / 2;
   eastRoof.position.set(0, 9.25, 0);
-
-  // 拱頂南北兩簷口深紅立體收邊飾條 (Arch Fascia Trim)
-  const archTrimGeo = new THREE.TorusGeometry(8.65, 0.22, 8, 32, Math.PI);
-  const archTrimNorth = new THREE.Mesh(archTrimGeo, materials.pitchedRedRidge);
-  archTrimNorth.rotation.z = Math.PI;
-  archTrimNorth.position.set(0, 9.25, -8.62);
-  const archTrimSouth = new THREE.Mesh(archTrimGeo, materials.pitchedRedRidge);
-  archTrimSouth.rotation.z = Math.PI;
-  archTrimSouth.position.set(0, 9.25, 8.62);
-
-  eastHallGrp.add(eastRoof, archTrimNorth, archTrimSouth);
-
-  // 屋頂太陽能板陣列
-  for (let sx = -6.5; sx <= 6.5; sx += 3.4) {
-    for (let sz = -5.0; sz <= 5.0; sz += 2.8) {
-      const panel = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.12, 2.2), materials.solarPanelMat);
-      panel.position.set(sx, 18.0, sz);
-      const pFrame = new THREE.Mesh(new THREE.BoxGeometry(2.95, 0.08, 2.35), materials.solarFrameMat);
-      pFrame.position.set(sx, 17.95, sz);
-      eastHallGrp.add(panel, pFrame);
-    }
-  }
+  eastHallGrp.add(eastRoof);
 
   // 1. 動態生成高解析度【朝馬路（梅竹蹊路）】旗艦立面貼圖（具備雙溪高中校徽與中英文校名）
   const streetFacadeCanvas = document.createElement('canvas');
@@ -1910,10 +2055,7 @@ function buildCampusBuildings() {
   complexTower.position.set(-27, 0, 3);
   complexGroup.add(complexTower);
 
-  // (5) 頂層多功能挑高演藝廳屋頂造型（深紅精緻金屬弧頂，徹底取代突兀粉紅方塊！）
-  const audRoof = new THREE.Mesh(new THREE.BoxGeometry(20, 2.2, 12), materials.pitchedRedRidge);
-  audRoof.position.set(3, 18.2, -2);
-  complexGroup.add(audRoof);
+  // (5) 屋頂維持平整乾淨的朱紅斜瓦坡頂，移除多餘突出的紅色結構
 
   // (6) ★ 轉角無障礙電梯塔（墨綠鋼柱 + 天藍透光玻璃觀景梯）★
   const elevGroup = new THREE.Group();
@@ -2732,8 +2874,8 @@ function createTree(radius, height) {
 function buildTreesAndDetails() {
   const treeBatch = new THREE.Group();
 
-  // 1. 校門進入沿線道路綠樹
-  for (let i = -105; i <= -45; i += 10) {
+  // 1. 校門進入沿線道路綠樹（依使用者指示：自大橋東側 X: -92 起向東排列，橋上不生成樹木）
+  for (let i = -92; i <= -45; i += 10) {
     const t = createTree(2.2, 5);
     t.position.set(i, 0, 42);
     treeBatch.add(t);
@@ -2746,8 +2888,9 @@ function buildTreesAndDetails() {
     treeBatch.add(t);
   }
 
-  // 3. 沿著平林溪河岸兩側之親水綠帶
-  for (let i = -110; i <= 90; i += 12) {
+  // 3. 沿著平林溪河岸兩側之親水綠帶（依使用者指示 media_1791526809291.png：大橋範圍 X: -118 ~ -94 徹底避讓，橋上絕不長樹）
+  for (let i = -140; i <= 90; i += 12) {
+    if (i >= -118 && i <= -94) continue;
     const t = createTree(2.6, 5.8);
     t.position.set(i, 0, 52 + Math.sin(i * 0.06) * 5);
     treeBatch.add(t);
@@ -3240,6 +3383,31 @@ function setupEventListeners() {
       }
     });
   }
+
+  // 底部操作說明縮小/展開按鈕（避免遮擋平林溪與道路視線）
+  const toggleHintBtn = document.getElementById('btn-toggle-hint');
+  const interactionHint = document.getElementById('interaction-hint');
+  if (toggleHintBtn && interactionHint) {
+    const toggleHint = (e) => {
+      e.stopPropagation();
+      const isMin = interactionHint.classList.toggle('minimized');
+      if (isMin) {
+        toggleHintBtn.innerHTML = '<i class="fa-solid fa-chevron-up"></i>';
+        toggleHintBtn.title = '展開操作說明';
+      } else {
+        toggleHintBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i>';
+        toggleHintBtn.title = '縮小操作說明';
+      }
+    };
+    toggleHintBtn.addEventListener('click', toggleHint);
+
+    // 縮小狀態下，點擊膠囊本身即可一鍵展開
+    interactionHint.addEventListener('click', (e) => {
+      if (interactionHint.classList.contains('minimized')) {
+        toggleHint(e);
+      }
+    });
+  }
 }
 
 /**
@@ -3319,6 +3487,123 @@ function setupMascotDrag() {
 
   mascot.addEventListener('mousedown', onStart);
   mascot.addEventListener('touchstart', onStart, { passive: true });
+}
+
+/**
+ * 設定左側「校園景點導覽」黑浮動視窗互動功能（支援自由拖曳移動、折疊縮小/放大還原、右下角手動縮放大小）
+ */
+function setupNavWindowInteractions() {
+  const campusNav = document.getElementById('campus-nav');
+  const dragHandle = document.getElementById('nav-drag-handle');
+  const btnMinimize = document.getElementById('btn-minimize-nav');
+  if (!campusNav || !dragHandle) return;
+
+  // 1. 浮動視窗自由拖曳移動功能
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let initialLeft = 0;
+  let initialTop = 0;
+
+  const onDragStart = (e) => {
+    // 若點擊的是控制按鈕，不觸發拖曳
+    if (e.target.closest('.nav-ctrl-btn') || e.target.closest('button')) {
+      return;
+    }
+    e.stopPropagation();
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    isDragging = true;
+    startX = clientX;
+    startY = clientY;
+
+    const rect = campusNav.getBoundingClientRect();
+    initialLeft = rect.left;
+    initialTop = rect.top;
+
+    campusNav.style.bottom = 'auto';
+    campusNav.style.right = 'auto';
+    campusNav.style.left = `${initialLeft}px`;
+    campusNav.style.top = `${initialTop}px`;
+    campusNav.classList.add('is-dragging');
+
+    document.addEventListener('mousemove', onDragMove, { passive: false });
+    document.addEventListener('mouseup', onDragEnd);
+    document.addEventListener('touchmove', onDragMove, { passive: false });
+    document.addEventListener('touchend', onDragEnd);
+  };
+
+  const onDragMove = (e) => {
+    if (!isDragging) return;
+    e.stopPropagation();
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const deltaX = clientX - startX;
+    const deltaY = clientY - startY;
+
+    if (e.cancelable && (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2)) {
+      e.preventDefault();
+    }
+
+    let newLeft = initialLeft + deltaX;
+    let newTop = initialTop + deltaY;
+
+    const navW = campusNav.offsetWidth;
+    const navH = campusNav.offsetHeight;
+    const maxLeft = Math.max(0, window.innerWidth - navW - 10);
+    const maxTop = Math.max(0, window.innerHeight - 45);
+
+    newLeft = Math.max(8, Math.min(newLeft, maxLeft));
+    newTop = Math.max(50, Math.min(newTop, maxTop));
+
+    campusNav.style.left = `${newLeft}px`;
+    campusNav.style.top = `${newTop}px`;
+  };
+
+  const onDragEnd = (e) => {
+    if (!isDragging) return;
+    if (e) e.stopPropagation();
+    isDragging = false;
+    campusNav.classList.remove('is-dragging');
+
+    document.removeEventListener('mousemove', onDragMove);
+    document.removeEventListener('mouseup', onDragEnd);
+    document.removeEventListener('touchmove', onDragMove);
+    document.removeEventListener('touchend', onDragEnd);
+  };
+
+  dragHandle.addEventListener('mousedown', onDragStart);
+  dragHandle.addEventListener('touchstart', onDragStart, { passive: false });
+
+  // 避免導覽清單本體內部點擊、選取或滾動事件穿透到地圖 controls
+  campusNav.addEventListener('mousedown', (e) => e.stopPropagation());
+  campusNav.addEventListener('touchstart', (e) => e.stopPropagation(), { passive: true });
+  campusNav.addEventListener('wheel', (e) => e.stopPropagation(), { passive: false });
+
+  // 2. 折疊縮小 / 放大還原功能
+  if (btnMinimize) {
+    btnMinimize.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isMinimized = campusNav.classList.toggle('minimized');
+      if (isMinimized) {
+        btnMinimize.innerHTML = '<i class="fa-solid fa-expand"></i>';
+        btnMinimize.title = '放大展開視窗';
+      } else {
+        btnMinimize.innerHTML = '<i class="fa-solid fa-minus"></i>';
+        btnMinimize.title = '縮小折疊視窗';
+      }
+    });
+  }
+
+  // 雙擊標題列亦可快速縮小或還原展開
+  dragHandle.addEventListener('dblclick', (e) => {
+    if (e.target.closest('.nav-ctrl-btn')) return;
+    if (btnMinimize) btnMinimize.click();
+  });
 }
 
 /**
@@ -3810,6 +4095,181 @@ function updateCampusDog(delta) {
 }
 
 /**
+ * ★ 依使用者指示：平林溪水中增加大量悠游游動的錦鯉與原生溪魚群 ★
+ * 包含經典大紅錦鯉、亮橙錦鯉、黃金錦鯉、紅白斑紋錦鯉與原生苦花魚
+ * 具備逼真的流線身軀、透明魚鰭與自主左右擺尾動態巡游動畫
+ */
+function buildPinglinRiverCarp() {
+  const carpGroup = new THREE.Group();
+
+  // 錦鯉專用精緻材質
+  const carpMats = {
+    red: new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.35, metalness: 0.25 }), // 鮮豔大紅錦鯉
+    orange: new THREE.MeshStandardMaterial({ color: 0xf97316, roughness: 0.35, metalness: 0.25 }), // 亮橙金錦鯉
+    gold: new THREE.MeshStandardMaterial({ color: 0xfacc15, roughness: 0.25, metalness: 0.65 }), // 閃亮黃金錦鯉
+    white: new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.3 }), // 珍珠雪白底
+    fin: new THREE.MeshStandardMaterial({ color: 0xfecdd3, transparent: true, opacity: 0.75, roughness: 0.2 }), // 水波輕透半透明魚鰭
+    native: new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.4, metalness: 0.45 }) // 臺灣原生苦花魚
+  };
+
+  // 輔助函式：建立單隻鯉魚模型
+  const createCarp = (colorType = 'red', scale = 1.0) => {
+    const fishObj = new THREE.Group();
+    const mat = carpMats[colorType] || carpMats.red;
+
+    // 1. 魚頭與前胸（圓錐流線型，頭部指向前方 +Z 軸）
+    const headGeo = new THREE.ConeGeometry(0.18, 0.46, 8);
+    const headMesh = new THREE.Mesh(headGeo, mat);
+    headMesh.rotation.x = Math.PI / 2;
+    headMesh.position.set(0, 0, 0.18);
+    fishObj.add(headMesh);
+
+    // 2. 魚腹與中後身（圓柱向後漸縮）
+    const bodyGeo = new THREE.CylinderGeometry(0.18, 0.08, 0.52, 8);
+    const bodyMesh = new THREE.Mesh(bodyGeo, mat);
+    bodyMesh.rotation.x = Math.PI / 2;
+    bodyMesh.position.set(0, 0, -0.24);
+    fishObj.add(bodyMesh);
+
+    // 3. 紅白斑紋特色斑塊（若為紅白錦鯉，在背部裝飾鮮紅浮島斑塊）
+    if (colorType === 'whiteRed') {
+      const spot1 = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), carpMats.red);
+      spot1.position.set(0, 0.09, 0.08);
+      spot1.scale.set(1.1, 0.35, 1.4);
+      const spot2 = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 8), carpMats.red);
+      spot2.position.set(0, 0.08, -0.22);
+      spot2.scale.set(1.0, 0.35, 1.2);
+      fishObj.add(spot1, spot2);
+    }
+
+    // 4. 魚背鰭（立於魚背上方）
+    const finTopGeo = new THREE.BoxGeometry(0.02, 0.14, 0.28);
+    const finTop = new THREE.Mesh(finTopGeo, carpMats.fin);
+    finTop.position.set(0, 0.16, -0.1);
+    fishObj.add(finTop);
+
+    // 5. 左右舒展之胸鰭
+    [-1, 1].forEach(side => {
+      const pecFin = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.02, 0.13), carpMats.fin);
+      pecFin.position.set(side * 0.19, -0.04, 0.12);
+      pecFin.rotation.z = side * 0.36;
+      pecFin.rotation.y = side * 0.32;
+      fishObj.add(pecFin);
+    });
+
+    // 6. 尾柄與尾鰭（獨立子群組，旋轉中心設於 -0.50，可動態左右大幅擺動）
+    const tailGroup = new THREE.Group();
+    tailGroup.position.set(0, 0, -0.50);
+
+    const tailFinGeo = new THREE.BoxGeometry(0.02, 0.28, 0.34);
+    const tailFin = new THREE.Mesh(tailFinGeo, carpMats.fin);
+    tailFin.position.set(0, 0, -0.17);
+    tailGroup.add(tailFin);
+
+    fishObj.add(tailGroup);
+    fishObj.scale.set(scale, scale, scale);
+
+    return { root: fishObj, tail: tailGroup };
+  };
+
+  // 水域三大群落配置（共 38 隻錦鯉生態群）
+  const zones = [
+    // 1. 觀魚平臺前方核心活躍錦鯉群（觀魚平臺在 X: -35 ~ 0，親水最集中處，熱鬧盤旋！）
+    { count: 16, minX: -45, maxX: -8, minZ: 53.5, maxZ: 57.5, speedMult: 1.15 },
+    // 2. 平林溪大橋下方及兩側水域（大橋在 X: -106，穿過大橋橋跨悠游自在）
+    { count: 13, minX: -130, maxX: -82, minZ: 53.8, maxZ: 58.2, speedMult: 0.95 },
+    // 3. 操場與東南人工溼地南側溪段（原生態深潭溪魚群）
+    { count: 9, minX: -6, maxX: 75, minZ: 54.0, maxZ: 58.8, speedMult: 1.05 }
+  ];
+
+  const colorPool = ['red', 'orange', 'gold', 'whiteRed', 'orange', 'native', 'red'];
+
+  zones.forEach((zone, zIdx) => {
+    for (let i = 0; i < zone.count; i++) {
+      const colorType = colorPool[(i + zIdx * 3) % colorPool.length];
+      const scale = 0.85 + Math.random() * 0.45; // 0.85m ~ 1.30m
+      const { root, tail } = createCarp(colorType, scale);
+
+      // 隨機初始位置（微浮於水面 Y: -0.03 下方之 Y: -0.07 ~ -0.11，清澈可辨）
+      const px = zone.minX + Math.random() * (zone.maxX - zone.minX);
+      const pz = zone.minZ + Math.random() * (zone.maxZ - zone.minZ);
+      const py = -0.07 - Math.random() * 0.04;
+
+      root.position.set(px, py, pz);
+      const initAngle = Math.random() * Math.PI * 2;
+      root.rotation.y = initAngle;
+      carpGroup.add(root);
+
+      riverFishList.push({
+        group: root,
+        tail: tail,
+        speed: (0.95 + Math.random() * 0.85) * zone.speedMult,
+        tailFreq: 5.5 + Math.random() * 2.5,
+        phase: Math.random() * Math.PI * 2,
+        zone: zone,
+        target: new THREE.Vector3(
+          zone.minX + Math.random() * (zone.maxX - zone.minX),
+          py,
+          zone.minZ + Math.random() * (zone.maxZ - zone.minZ)
+        ),
+        targetWait: Math.random() * 2.0
+      });
+    }
+  });
+
+  scene.add(carpGroup);
+}
+
+/**
+ * 錦鯉游動動畫循環：自然擺尾、魚身隨波擺動、全域平滑巡游
+ */
+let fishAnimTime = 0;
+function updateRiverFish(delta) {
+  if (!riverFishList.length) return;
+  fishAnimTime += delta;
+
+  riverFishList.forEach(fish => {
+    const { group, tail, zone } = fish;
+
+    // 1. 檢視是否抵達當前目標點，若是則選取新目標
+    const dx = fish.target.x - group.position.x;
+    const dz = fish.target.z - group.position.z;
+    const distSq = dx * dx + dz * dz;
+
+    if (distSq < 1.2) {
+      fish.targetWait -= delta;
+      if (fish.targetWait <= 0) {
+        fish.target.x = zone.minX + Math.random() * (zone.maxX - zone.minX);
+        fish.target.z = zone.minZ + Math.random() * (zone.maxZ - zone.minZ);
+        fish.targetWait = 1.0 + Math.random() * 2.5;
+      }
+    }
+
+    // 2. 朝向目標點平滑轉向（+Z 為前方朝向）
+    const targetAngle = Math.atan2(dx, dz);
+    let diff = targetAngle - group.rotation.y;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    group.rotation.y += diff * Math.min(delta * 2.6, 1.0);
+
+    // 3. 沿著前方游動前進
+    const moveDist = fish.speed * delta;
+    group.position.x += Math.sin(group.rotation.y) * moveDist;
+    group.position.z += Math.cos(group.rotation.y) * moveDist;
+
+    // 4. 水域邊界保護（若游出邊界則自然回彈約束）
+    if (group.position.x < zone.minX) group.position.x = zone.minX;
+    if (group.position.x > zone.maxX) group.position.x = zone.maxX;
+    if (group.position.z < zone.minZ) group.position.z = zone.minZ;
+    if (group.position.z > zone.maxZ) group.position.z = zone.maxZ;
+
+    // 5. 魚尾生動擺動與魚身微幅律動
+    tail.rotation.y = Math.sin(fishAnimTime * fish.tailFreq + fish.phase) * 0.45;
+    group.rotation.z = Math.sin(fishAnimTime * (fish.tailFreq * 0.5) + fish.phase) * 0.06;
+  });
+}
+
+/**
  * 核心渲染與物理循環
  */
 function animate(time) {
@@ -3818,6 +4278,7 @@ function animate(time) {
   TWEEN.update();
   controls.update();
   updateCampusDog(delta);
+  updateRiverFish(delta);
   updateScreenLabels();
   renderer.render(scene, camera);
 }
