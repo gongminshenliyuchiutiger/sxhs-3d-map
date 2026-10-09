@@ -31,16 +31,60 @@ const CAMPUS_DATA = [
     icon: 'fa-school',
     position: { x: -73, y: 0, z: 28 },
     cameraOffset: { x: 15, y: 36, z: 46 },
-    tags: ['3層樓', '核心大樓', '總務處', '人事室', '會計室', '3F空中天橋'],
-    desc: '教學區最南側獨立長條大樓，樓高三層。南面緊臨柳堤蠻岸與平林溪，北面隔著寬敞的中庭廣場與桃李花園和大勇樓相望。大樓完全獨立不連教學大樓，僅在三樓設有懸空天橋跨通大勇樓三樓。',
+    tags: ['3層樓', '行政核心', '總務處', '人事室', '會計室', '理化實驗室', '3F空中天橋'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：大智樓樓高三層，北面隔著中庭步道與桃李花園和大勇樓相望。1F配置國中九年級班級、烹飪教室、特教資源與靜思書軒；2F為行政核心總務處、人事室、會計室與國中導師室；3F匯集化學、生物、物理自然科學實驗室與美術教室，並於三樓設有懸空天橋跨通大勇樓三樓。',
     floors: [
-      { floor: '1F', desc: '國中班級教室、無障礙洗手間' },
-      { floor: '2F', desc: '總務處、人事室、會計室、國中導師辦公室、會議室' },
-      { floor: '3F', desc: '專科教室、跨棟空中天橋（連接大勇樓 3F）' }
+      {
+        floor: '1F',
+        desc: '國中九年級教室(901, 902)、烹飪教室、特教資源中心、靜思書軒、維修室與無障礙電梯',
+        rooms: [
+          { name: '維修室', type: 'service', desc: '校園設備修繕維護庫房' },
+          { name: '靜思書軒', type: 'special', desc: '靜思閱覽與心靈沉澱書軒' },
+          { name: '資源班 / 學習中心(2)', type: 'special', desc: '特殊教育個別化資源教學中心' },
+          { name: '特教辦公室', type: 'office', desc: '特教組教師聯合辦公室' },
+          { name: '資源班', type: 'special', desc: '特殊教育輔導與適性學習教室' },
+          { name: '烹飪教室', type: 'lab', desc: '家政與烘焙烹飪實習專科教室' },
+          { name: '文化走廊 (一樓穿堂)', type: 'corridor', desc: '一樓建築完全挖空之挑空貫通穿堂，連通中庭與南岸走道' },
+          { name: '國中教室 901', type: 'classroom', desc: '國中部九年一班班級教室' },
+          { name: '國中教室 902', type: 'classroom', desc: '國中部九年二班班級教室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間與盥洗設施' },
+          { name: '無障礙電梯', type: 'accessible', desc: '無障礙客梯，直通 1F 至 3F' }
+        ]
+      },
+      {
+        floor: '2F',
+        desc: '行政處室核心（總務處、會計室、人事室、會議室）、國中導師室與九年級教室(903)',
+        rooms: [
+          { name: '家長會辦公室', type: 'office', desc: '學生家長會聯誼與會務空間' },
+          { name: '檔案室', type: 'service', desc: '學校歷史文書與機密公文檔案庫' },
+          { name: '會計室', type: 'office', desc: '主計會計行政業務處室' },
+          { name: '總務處', type: 'office', desc: '總務行政、庶務出納管理中心' },
+          { name: '行政會議室', type: 'office', desc: '全校行政協調與校務會議室' },
+          { name: '樓梯 (西側)', type: 'service', desc: '西側安全疏散階梯' },
+          { name: '國中導師室', type: 'office', desc: '國中部各班導師聯合研討辦公室' },
+          { name: '人事室', type: 'office', desc: '教職員人事福利與考核處室' },
+          { name: '國中教室 903', type: 'classroom', desc: '國中部九年三班班級教室' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間與盥洗設施' },
+          { name: '樓梯 (東側)', type: 'service', desc: '東側連通樓梯' }
+        ]
+      },
+      {
+        floor: '3F',
+        desc: '自然科學實驗室重鎮（化學、生物、物理）、美術教室與跨棟空中走道',
+        rooms: [
+          { name: '器械室', type: 'service', desc: '實驗器材與精密儀器庫房' },
+          { name: '化學實驗室', type: 'lab', desc: '標準通風抽氣設備之化學教學實驗室' },
+          { name: '生物實驗室', type: 'lab', desc: '顯微鏡與生物標本研習實驗室' },
+          { name: '跨棟空中天橋', type: 'corridor', desc: '三樓高空景觀走道，跨通大勇樓3F' },
+          { name: '物理實驗室', type: 'lab', desc: '力學光學電學專用物理教學實驗室' },
+          { name: '美術教室', type: 'lab', desc: '視覺藝術、陶藝與繪畫專科教室' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間與盥洗設施' }
+        ]
+      }
     ],
     accessibility: [
+      '東南角配置標準無障礙專用電梯，直通 1F 至 3F 各樓層',
       '大智樓東南角設有無障礙專用斜坡引道',
-      '設有無障礙洗手間與電梯',
       '平緩步道連通中庭廣場與桃李花園'
     ]
   },
@@ -52,15 +96,57 @@ const CAMPUS_DATA = [
     icon: 'fa-user-graduate',
     position: { x: -70, y: 0, z: 0 },
     cameraOffset: { x: 15, y: 36, z: 38 },
-    tags: ['3層樓', '教學大樓', '輔導處', '3F空中天橋'],
-    desc: '位於教學區北側之獨立大樓，樓高三層，與大智樓平行相望。東端與教學大樓完全獨立不相連，僅在三樓設有挑高景觀空中天橋跨越大智樓，一二樓地面完全挑空貫通。',
+    tags: ['3層樓', '輔導中心', '創客教室', '生科教室', '3F空中天橋'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：大勇樓樓高三層，與大智樓平行相望。1F配置國中七、八年級教室(701, 702, 703, 801, 802)與風雨走廊；2F為輔導處中心、個人諮商室、團體諮商室、資源班與視聽教室；3F匯集創客教室(Maker Space)、生活科技、音樂、語言與多功能綜合教室，並於三樓設有景觀空中天橋跨通大智樓三樓。',
     floors: [
-      { floor: '1F', desc: '普通班級教室、專科教室' },
-      { floor: '2F', desc: '輔導處、個別諮商室、團體輔導室、生命教育資源室' },
-      { floor: '3F', desc: '專科教學教室、跨棟空中天橋（連接大智樓 3F）' }
+      {
+        floor: '1F',
+        desc: '國中七、八年級教室(701, 702, 703, 801, 802)、文化走廊與風雨走廊',
+        rooms: [
+          { name: '國中教室 701', type: 'classroom', desc: '國中部七年一班班級教室' },
+          { name: '國中教室 702', type: 'classroom', desc: '國中部七年二班班級教室' },
+          { name: '國中教室 703', type: 'classroom', desc: '國中部七年三班班級教室' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' },
+          { name: '文化走廊 (一樓穿堂)', type: 'corridor', desc: '一樓建築完全挖空之挑空貫通穿堂，正對大智樓穿堂' },
+          { name: '國中教室 801', type: 'classroom', desc: '國中部八年一班班級教室' },
+          { name: '國中教室 802', type: 'classroom', desc: '國中部八年二班班級教室' },
+          { name: '風雨走廊', type: 'corridor', desc: '防雨遮陽戶外連通迴廊' }
+        ]
+      },
+      {
+        floor: '2F',
+        desc: '學生輔導中心（輔導處、個人諮商室1/2、團體諮商室）、資源班學習中心與視聽教室',
+        rooms: [
+          { name: '個人諮商室 (1)', type: 'office', desc: '個別心理諮商與保密談話室' },
+          { name: '團體諮商室', type: 'office', desc: '同儕團體輔導與心理衛生活動室' },
+          { name: '個人諮詢室 (2)', type: 'office', desc: '個別個案會談與親師晤談室' },
+          { name: '資源班 / 學習中心', type: 'special', desc: '學習輔助與適性充實教室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通往一樓及三樓樓梯' },
+          { name: '輔導處', type: 'office', desc: '輔導組、資料組與專任輔導教師辦公室' },
+          { name: '視聽教室', type: 'special', desc: '多媒體簡報與大型視聽教學空間' },
+          { name: '樓梯 (東側)', type: 'service', desc: '東側安全通道樓梯' }
+        ]
+      },
+      {
+        floor: '3F',
+        desc: '藝能特色教室（創客教室、生活科技、音樂、語言、多功能）與跨棟空中走道',
+        rooms: [
+          { name: '多功能教室', type: 'special', desc: '彈性靈活跨領域多元學習教室' },
+          { name: '語言教室', type: 'lab', desc: '英語與本土語雙語教學專用教室' },
+          { name: '音樂教室', type: 'lab', desc: '音樂合唱與樂器鑑賞教學專科教室' },
+          { name: '跨棟空中天橋', type: 'corridor', desc: '高空景觀走道，跨通大智樓3F' },
+          { name: '創客教室 (Maker Space)', type: 'lab', desc: '3D列印、雷切與創客動手做工坊' },
+          { name: '生活科技教室', type: 'lab', desc: '生活科技工藝與機械操作實習教室' },
+          { name: '綜合教室', type: 'special', desc: '綜合活動與社團研討教室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      }
     ],
     accessibility: [
-      '設有無障礙坡道，地面無門檻障礙'
+      '設有無障礙坡道，一樓走道平順暢通',
+      '三樓跨棟天橋平整無門檻，可直通大智樓無障礙電梯'
     ]
   },
   {
@@ -83,24 +169,106 @@ const CAMPUS_DATA = [
   },
   {
     id: 'complex',
-    name: '多功能綜合大樓 (5層樓旗艦)',
+    name: '多功能綜合大樓 (Multi-functional Complex - 6層樓)',
     shortName: '多功能綜合大樓',
     enName: 'Multi-functional Complex Building',
     icon: 'fa-building-columns',
     position: { x: -48, y: 0, z: -21 },
     cameraOffset: { x: 22, y: 46, z: 40 },
-    tags: ['5層樓', '校徽山牆', '亮藍馬賽克窗套', '圖書館', '演藝廳', '鐘樓方塔', '太陽能屋頂'],
-    desc: '教學區北側臨梅竹蹊路的旗艦大樓，樓高五層（5F），頂樓設有挑高演藝廳與鋪設太陽能光電板之弧形大屋頂。北立面高懸圓形校徽與金色校名題額，正中擁有辨識度極高的經典亮天藍色馬賽克造型窗套；西側設有歐式紅尖頂鐘樓方塔，東側無縫銜接教學大樓。',
+    tags: ['6層樓', '教務處', '圖書館', '演藝廳', '電腦教室', '校長室', '無障礙電梯'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：面朝梅竹蹊路之現代旗艦大樓，樓高六層（1F~6F）！1F為教務處、會議中心與儲藏室；2F為雙溪高中圖書館閱覽大廳與討論室；3F配置高中與國中電腦教室、專任教師辦公室與群組教室；4F為校長室、行政辦公室與高中導師室；5F為大型挑高多功能演藝廳(中控室/VIP區)、校史室、環景科技教室與商科情境教室；6F為演藝廳挑高頂棚與機電設備。',
     floors: [
-      { floor: '1F', desc: '教務處、多功能大型會議中心' },
-      { floor: '2F', desc: '學校圖書館、自主學習中心、多媒體視聽區' },
-      { floor: '3F', desc: '專任教師聯合辦公室、高中專科研究室' },
-      { floor: '4F', desc: '校長室、高中導師辦公室、行政會議廳' },
-      { floor: '5F', desc: '大型挑高多功能演藝廳、藝文展演大廳' }
+      {
+        floor: '1F',
+        desc: '靠近校門側西側樓梯/男女洗手間、會議中心、行政儲藏室、綠博士廣場大穿堂、教務處核心處室、教具油印室與東南角無障礙電梯',
+        rooms: [
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通廊樓梯 (靠近校門口側)' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間 (西端靠近校門口側)' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間 (西端靠近校門口側)' },
+          { name: '會議中心', type: 'special', desc: '全校大型學術會議與校務決策中心 (南側)' },
+          { name: '儲藏室 (西側)', type: 'service', desc: '西側校務物資儲藏室 (北側)' },
+          { name: '綠博士廣場 (穿堂)', type: 'corridor', desc: '一樓挑高大穿堂，東端直通操場跑道與合照大階梯' },
+          { name: '教務處', type: 'office', desc: '教學組、註冊組、設備組核心辦公處室' },
+          { name: '教具室', type: 'service', desc: '各學科教具器材保管與借調中心' },
+          { name: '油印室', type: 'service', desc: '全校試卷與教學講義印刷製作中心' },
+          { name: '儲藏室 (東側)', type: 'service', desc: '教務教學設備儲存庫' },
+          { name: '無障礙電梯', type: 'accessible', desc: '直通 1F 至 6F 專用無障礙電梯 (東南角)' },
+          { name: '樓梯 (東側)', type: 'service', desc: '東側安全通道樓梯' }
+        ]
+      },
+      {
+        floor: '2F',
+        desc: '靠近校門側西側樓梯/男女洗手間、圖書館儲藏室、圖書館行政辦公室、雙溪高中圖書館開架閱覽大廳與專題討論室',
+        rooms: [
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通廊樓梯 (靠近校門口側)' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間 (西端靠近校門口側)' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間 (西端靠近校門口側)' },
+          { name: '圖書館儲藏室', type: 'service', desc: '珍貴館藏與典籍儲備庫 (北側)' },
+          { name: '圖書館行政辦公室', type: 'office', desc: '圖書資訊管理與採訪編目辦公室 (北側)' },
+          { name: '圖書館 (開架閱覽大廳)', type: 'special', desc: '開架藏書區、學生自習與自主學習大廳 (東側核心採光大廳)' },
+          { name: '專題討論室', type: 'office', desc: '小組合作研習與專案討論空間 (南側)' },
+          { name: '無障礙電梯', type: 'accessible', desc: '直通 1F 至 6F 專用無障礙電梯 (東南角)' }
+        ]
+      },
+      {
+        floor: '3F',
+        desc: '靠近校門側西側樓梯/男女洗手間、群組教室一/二、專任教師辦公室、資訊主機房、高中/國中電腦教室與逃生緩降梯',
+        rooms: [
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通廊樓梯 (靠近校門口側)' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間 (西端靠近校門口側)' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間 (西端靠近校門口側)' },
+          { name: '群組教室一', type: 'special', desc: '互動式分組討論與翻轉學習專用教室 (南側)' },
+          { name: '群組教室二', type: 'special', desc: '跨學科小組合作學習教室 (南側)' },
+          { name: '專任教師辦公室', type: 'office', desc: '全校專任教師研討與備課聯合辦公室 (北側)' },
+          { name: '主機房', type: 'service', desc: '校園骨幹網路與伺服器核心主機房 (北側)' },
+          { name: '高中電腦教室', type: 'lab', desc: '高中部資訊科技與程式設計專用教室 (東南側)' },
+          { name: '國中電腦教室', type: 'lab', desc: '國中部資訊科技與數位學習教室 (東北側)' },
+          { name: '逃生緩降梯', type: 'service', desc: '東側緊急逃生與安全避難設施' },
+          { name: '無障礙電梯', type: 'accessible', desc: '直通 1F 至 6F 專用無障礙電梯 (東南角)' }
+        ]
+      },
+      {
+        floor: '4F',
+        desc: '靠近校門側西側樓梯/男女洗手間、校長室、高中導師辦公室、中控室與大型演藝廳觀眾席',
+        rooms: [
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通廊樓梯 (靠近校門口側)' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間 (西端靠近校門口側)' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間 (西端靠近校門口側)' },
+          { name: '校長室', type: 'office', desc: '校長辦公室與貴賓接待會客室 (南側)' },
+          { name: '高中導師辦公室', type: 'office', desc: '高中部各班導師輔導與教學準備辦公室 (南側)' },
+          { name: '中控室', type: 'special', desc: '演藝廳專業舞台音響、燈光與多媒體主控室 (北側)' },
+          { name: '大型演藝廳 (觀眾席)', type: 'hall', desc: '多功能大型演藝廳觀眾進場玄關與下層觀眾席 (東側核心大廳)' },
+          { name: '無障礙電梯', type: 'accessible', desc: '直通 1F 至 6F 專用無障礙電梯 (東南角)' }
+        ]
+      },
+      {
+        floor: '5F',
+        desc: '靠近校門側西側樓梯/雙溪校史室(無洗手間)、環景科技教室、商科情境教室、大型演藝廳挑高主館(VIP席)與空調機房',
+        rooms: [
+          { name: '樓梯 (西側)', type: 'service', desc: '西側通廊樓梯 (靠近校門口側)' },
+          { name: '雙溪校史室', type: 'special', desc: '雙溪高中創校建校歷史文物、榮譽獎盃與校史展示室 (西端靠近校門口側，原圖此樓層無配置廁所)' },
+          { name: '環景科技教室', type: 'lab', desc: 'VR/AR 沉浸式環景體驗與未來科技情境教室 (南側)' },
+          { name: '商科情境教室', type: 'lab', desc: '商業經營、行銷與電子商務模擬情境教室 (南側)' },
+          { name: '大型演藝廳 (挑高大廳 / VIP席)', type: 'hall', desc: '挑高舞台、貴賓席與上層觀賞看臺 (東側核心大廳)' },
+          { name: '空調機房', type: 'service', desc: '大型中央空調機電控制室 (東北側)' },
+          { name: '無障礙電梯', type: 'accessible', desc: '直通 1F 至 6F 專用無障礙電梯 (東南角)' }
+        ]
+      },
+      {
+        floor: '6F',
+        desc: '西側安全樓梯/機電維護空間與東側大型演藝廳挑高頂棚舞台吊架設備',
+        rooms: [
+          { name: '樓梯通道 (西側)', type: 'service', desc: '直通頂樓安全通道樓梯 (西側靠近校門口)' },
+          { name: '機電維護空間', type: 'service', desc: '頂樓高壓配電與機電管線檢修維護空間' },
+          { name: '大型演藝廳 (挑高頂棚/舞台吊架)', type: 'hall', desc: '演藝廳挑高頂棚之天花燈光貓道與專業吸音舞台設備 (東側)' },
+          { name: '無障礙電梯機房', type: 'accessible', desc: '無障礙電梯頂樓機房與安全維護通道 (東南角)' }
+        ]
+      }
     ],
     accessibility: [
-      '配置專用無障礙電梯，直通 1F 至 5F 各樓層',
-      '入口具備標準無障礙專用坡道'
+      '配置專用無障礙電梯，直通 1F 至 6F 各樓層',
+      '演藝廳設有無障礙輪椅席與專屬緩坡進場通道',
+      '北側梅竹蹊路大門具備標準無障礙專用坡道'
     ]
   },
   {
@@ -111,16 +279,74 @@ const CAMPUS_DATA = [
     icon: 'fa-landmark',
     position: { x: -36, y: 0, z: 3.5 },
     cameraOffset: { x: 26, y: 38, z: 36 },
-    tags: ['5層樓', '南北走向長棟', '完全獨立', '學務處', '健康中心', '無障礙坡道'],
-    desc: '正式平面圖明確標示之南北走向獨立長條型大樓，樓高五層（5F）！建築量體完全獨立，與大智樓、大勇樓並未連在一起；西側隔著人行通道面對桃李花園與大勇樓，東側臨田徑場主幹道。1F 設有學務處與健康中心（保健室）。',
+    tags: ['5層樓', '學務處', '健康中心', '高中部教室', '無障礙電梯'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：南北走向之獨立五層大樓（1F~5F），西臨桃李花園，東臨田徑跑道。1F為學務處核心、學務處會議室、健康中心（保健室）與文化走廊；2F為高中一年級班級(103, 104, 105)與文史專科教室；3F為高中一、二年級班級(101, 102, 204, 205)與無障礙電梯；4F為高中二、三年級班級(201, 202, 203, 305)；5F為高中三年級班級(301, 302, 303, 304)。每層樓皆配有完善洗手間。',
     floors: [
-      { floor: '1F', desc: '學務處、健康中心（保健室）、生輔組、無障礙洗手間' },
-      { floor: '2F', desc: '專科教室、社團活動教室' },
-      { floor: '3F', desc: '高中部普通班級教室' },
-      { floor: '4F', desc: '高中部班級教室、自然專科實驗室' },
-      { floor: '5F', desc: '多媒體資訊教室、專案研究室' }
+      {
+        floor: '1F',
+        desc: '學務處行政樞紐、學務處會議室、健康中心（保健室）與文化走廊',
+        rooms: [
+          { name: '學務處會議室', type: 'office', desc: '學生事務決策與生輔常態研討會議室' },
+          { name: '學務處', type: 'office', desc: '生輔組、訓育組、體衛組聯合辦公室' },
+          { name: '文化走廊 (一樓穿堂)', type: 'corridor', desc: '一樓完全挖空挑空之貫通穿堂，自由穿梭中庭與操場路網' },
+          { name: '健康中心 (保健室)', type: 'office', desc: '校園傷病醫療救護、健康檢查與休息病床室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      },
+      {
+        floor: '2F',
+        desc: '高中一年級普通教室(103, 104, 105)與文史專科教室',
+        rooms: [
+          { name: '高中 103 教室', type: 'classroom', desc: '高中部一年三班班級教室' },
+          { name: '高中 104 教室', type: 'classroom', desc: '高中部一年四班班級教室' },
+          { name: '高中 105 教室', type: 'classroom', desc: '高中部一年五班班級教室' },
+          { name: '文史專科教室', type: 'lab', desc: '國文與歷史社會領域情境教學教室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      },
+      {
+        floor: '3F',
+        desc: '高中一、二年級教室(204, 205, 101, 102)與無障礙電梯通廊',
+        rooms: [
+          { name: '高中 204 教室', type: 'classroom', desc: '高中部二年四班班級教室' },
+          { name: '高中 205 教室', type: 'classroom', desc: '高中部二年五班班級教室' },
+          { name: '高中 101 教室', type: 'classroom', desc: '高中部一年一班班級教室' },
+          { name: '高中 102 教室', type: 'classroom', desc: '高中部一年二班班級教室' },
+          { name: '無障礙電梯', type: 'accessible', desc: '教學大樓無障礙電梯，直通各樓層' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      },
+      {
+        floor: '4F',
+        desc: '高中二、三年級普通教室(305, 201, 202, 203)與安全樓梯',
+        rooms: [
+          { name: '高中 305 教室', type: 'classroom', desc: '高中部三年五班班級教室' },
+          { name: '高中 201 教室', type: 'classroom', desc: '高中部二年一班班級教室' },
+          { name: '高中 202 教室', type: 'classroom', desc: '高中部二年二班班級教室' },
+          { name: '高中 203 教室', type: 'classroom', desc: '高中部二年三班班級教室' },
+          { name: '中央樓梯', type: 'service', desc: '南北貫穿安全疏散樓梯' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      },
+      {
+        floor: '5F',
+        desc: '高中三年級普通班級教室(301, 302, 303, 304)',
+        rooms: [
+          { name: '高中 301 教室', type: 'classroom', desc: '高中部三年一班班級教室' },
+          { name: '高中 302 教室', type: 'classroom', desc: '高中部三年二班班級教室' },
+          { name: '高中 303 教室', type: 'classroom', desc: '高中部三年三班班級教室' },
+          { name: '高中 304 教室', type: 'classroom', desc: '高中部三年四班班級教室' },
+          { name: '男生廁所', type: 'restroom', desc: '男用洗手間' },
+          { name: '女生廁所', type: 'restroom', desc: '女用洗手間' }
+        ]
+      }
     ],
     accessibility: [
+      '配置專用無障礙電梯，直通 1F 至 5F 各樓層',
       '大門設有無障礙坡道引道',
       '南側臨操場設有無障礙專屬停車位與平順動線'
     ]
@@ -197,18 +423,24 @@ const CAMPUS_DATA = [
   },
   {
     id: 'west_services',
-    name: '器材室、團練室與合作社 (1層樓平房)',
+    name: '體育器材室、韻律舞蹈教室與合作社 (1層樓平房)',
     shortName: '合作社與器材室',
-    enName: 'Equipment Room & School Co-op',
+    enName: 'Sports Equipment, Dance Studio & School Co-op',
     icon: 'fa-store',
     position: { x: -22, y: 0, z: 17 },
     cameraOffset: { x: -12, y: 28, z: 32 },
-    tags: ['1層樓平房', '學校合作社', '器材室', '社團團練室', '生活服務'],
-    desc: '位於風雨操場西側之 1 層樓平房多功能服務大樓，由北向南依序規劃：體育器材室、學生社團團練室，以及供應全校文具與餐點的學校合作社。',
+    tags: ['1層樓平房', '學校合作社', '體育器材室', '韻律舞蹈教室', '生活服務'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：位於風雨操場西側之 1 層樓平房服務設施，依序規劃：體育器材室、韻律舞蹈教室，以及供應全校文具點心飲品的學校合作社。',
     floors: [
-      { floor: '1F北段', desc: '體育教學器材室（存放球具、田徑用具）' },
-      { floor: '1F中段', desc: '社團團練室（音樂、舞蹈、社團練習空間）' },
-      { floor: '1F南段', desc: '學校合作社（師生日常生活用品與食品販賣部）' }
+      {
+        floor: '1F',
+        desc: '體育器材室、韻律舞蹈教室、學校合作社',
+        rooms: [
+          { name: '體育器材室', type: 'service', desc: '體育教學器材存放與球具管理室' },
+          { name: '韻律舞蹈教室', type: 'special', desc: '鋪設木地板與全身鏡之舞蹈體適能韻律教室' },
+          { name: '學校合作社', type: 'service', desc: '師生日常生活用品、文具與食品福利社' }
+        ]
+      }
     ],
     accessibility: [
       '合作社大門平坦，1樓無門檻出入，通道寬敞'
@@ -243,8 +475,23 @@ const CAMPUS_DATA = [
     tags: ['室內體育館', '大禮堂', '獨立大樓', '無障礙車位'],
     desc: '位於操場東側，為南北走向的大型長方形綜合體育館，包含室內球場與全校集會大禮堂。南側隔著 15 米寬敞人行通道與綠帶，與男學生宿舍完全獨立分開，東側為西職務宿舍。',
     floors: [
-      { floor: '1F', desc: '室內多功能綜合球場、舞臺控制室、體育器材庫' },
-      { floor: '2F', desc: '環形看臺迴廊、體能健身室' }
+      {
+        floor: '1F',
+        desc: '室內多功能綜合球場、舞臺控制室、體育器材庫',
+        rooms: [
+          { name: '綜合運動球場 (籃/排/羽)', type: 'special', desc: '室內楓木地板多功能球場' },
+          { name: '大禮堂表演舞臺', type: 'hall', desc: '大型集會與典禮活動舞臺' },
+          { name: '體育器材總庫', type: 'service', desc: '活動中心體育教學與球類器材庫' }
+        ]
+      },
+      {
+        floor: '2F',
+        desc: '環形看臺迴廊、體能健身室',
+        rooms: [
+          { name: '環形看臺觀眾席', type: 'hall', desc: '俯瞰全場之高空觀眾看臺' },
+          { name: '體能健身訓練室', type: 'special', desc: '重訓設備與體能鍛鍊空間' }
+        ]
+      }
     ],
     accessibility: [
       '正側門均設有無障礙專用坡道與專屬車位'
@@ -252,14 +499,14 @@ const CAMPUS_DATA = [
   },
   {
     id: 'job_dorm',
-    name: '職務宿舍群 (Staff Dormitories - 共五棟)',
-    shortName: '職務宿舍',
+    name: '教職員宿舍區 (Staff Dormitories - 共五棟)',
+    shortName: '教職員宿舍',
     enName: 'Staff Dormitories',
     icon: 'fa-house-user',
     position: { x: 82, y: 0, z: -18 },
     cameraOffset: { x: -18, y: 38, z: 32 },
     tags: ['教職員宿舍', '五棟分佈', '西棟', '南橫棟', '中北短棟', '中央長棟', '東長棟'],
-    desc: '分佈於東北側區域的完整 5 棟教職員職務宿舍：包含活動中心東側的西棟（配水池綠地）、路口上方的南橫棟、中央上方北短直棟、中央長直棟（雙棟錯位排列）以及最東側臨溪的東長直棟。',
+    desc: '依平面圖標示「教職員宿舍區」：分佈於東北側區域的完整 5 棟教職員職務宿舍，提供遠道教職員安居之溫馨生活家園。',
     floors: [
       { floor: '棟1 (西棟)', desc: '活動中心正東側獨立職務宿舍，兩側鋪設水池與景觀綠地' },
       { floor: '棟2 (南橫棟)', desc: '位於廚房西北側、T字路口北緣的橫向長方形宿舍' },
@@ -279,11 +526,27 @@ const CAMPUS_DATA = [
     icon: 'fa-building-user',
     position: { x: 53, y: 0, z: 11 },
     cameraOffset: { x: -16, y: 32, z: 28 },
-    tags: ['5層樓', '學生宿舍', '男宿', '獨立棟舍', '西南東北斜向走向', '無障礙電梯塔'],
-    desc: '座落於田徑場跑道東側、活動中心東南方，樓高五層（5F），呈西南至東北斜向傾斜走向。東側與女學生宿舍相鄰但不相連，中間留有暢通的南北貫穿步道與綠化大道；東北翼配有直通 5F 之無障礙電梯塔，西南角為山羌造型泥土披薩窯。',
+    tags: ['5層樓', '學生宿舍', 'K書中心', '重訓室', '窯烤區', '無障礙電梯塔'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：男學生宿舍樓高五層（5F），1F明確規劃「K書中心」與「重訓室」，西南角草坪配置「窯烤區」；東北翼配有直通 5F 之無障礙電梯塔，生活機能健全。',
     floors: [
-      { floor: '1F', desc: '男宿交誼大廳、無障礙專用寢室、自習閱覽室' },
-      { floor: '2F-5F', desc: '男生宿舍標準寢室單元、洗衣曬衣空間、生活衛浴區' }
+      {
+        floor: '1F',
+        desc: '男宿交誼大廳、K書中心、重訓室、無障礙專用寢室、窯烤區連通道',
+        rooms: [
+          { name: 'K書中心', type: 'special', desc: '住宿生晚自習安靜讀書專用空間' },
+          { name: '住宿生重訓室', type: 'special', desc: '專業重訓啞鈴槓鈴體能鍛鍊室' },
+          { name: '男宿交誼大廳', type: 'service', desc: '沙發會客、電視休閒與公共冰箱區' },
+          { name: '無障礙專用寢室', type: 'accessible', desc: '標準無障礙輪椅友善寢室' }
+        ]
+      },
+      {
+        floor: '2F-5F',
+        desc: '男生宿舍標準寢室單元、洗衣曬衣空間、生活衛浴區',
+        rooms: [
+          { name: '男生宿舍標準寢室', type: 'service', desc: '四人套房標準寢室單元' },
+          { name: '公共衛浴與洗衣房', type: 'service', desc: '投幣式洗衣機、烘衣機與日照曬衣陽臺' }
+        ]
+      }
     ],
     accessibility: [
       '東北翼配置直達 5F 專用無障礙電梯塔',
@@ -299,7 +562,7 @@ const CAMPUS_DATA = [
     position: { x: 46, y: 0, z: 24 },
     cameraOffset: { x: -10, y: 18, z: 18 },
     tags: ['泥土山羌造型', '手作土坏柴燒窯', '食農教育', '在地生態美學'],
-    desc: '座落於男學生宿舍正西南角獨立草坪。由師生發揮在地生態美學與手作工藝，運用自然紅土坏泥精心捏塑而成的「山羌造型泥土披薩窯」。泥土山羌的圓潤身軀化為蓄熱窯膛，胸口為烤披薩入料拱門，具備食農烘焙體驗與環境教育意義。',
+    desc: '平面圖標示「窯烤區」：座落於男學生宿舍正西南角獨立草坪。由師生發揮在地生態美學與手作工藝，運用自然紅土坏泥精心捏塑而成的「山羌造型泥土披薩窯」，具備食農烘焙體驗與環境教育意義。',
     floors: [
       { floor: '窯烤設施', desc: '泥土山羌造型柴燒窯、防雨原木涼亭、備料工作臺、柴火堆放區' }
     ],
@@ -309,18 +572,33 @@ const CAMPUS_DATA = [
   },
   {
     id: 'female_dorm',
-    name: '女學生宿舍與親水廣場 (5層樓)',
+    name: '女學生宿舍與廣場 (5層樓)',
     shortName: '女學生宿舍',
-    enName: 'Girls Dormitory & Water Plaza',
+    enName: 'Girls Dormitory & Plaza',
     icon: 'fa-hotel',
     position: { x: 82, y: 0, z: 10 },
     cameraOffset: { x: -20, y: 42, z: 36 },
-    tags: ['5層樓', '學生宿舍', '女宿', '完全獨立', '無障礙電梯塔', '親水圓池廣場'],
-    desc: '位於東側獨立區域，樓高五層（5F），與男學生宿舍隔著寬闊的大道完全分立，絕不相連！北接中央廚房、東南接學生大餐廳，南側設有直通 5F 之專屬無障礙電梯塔與大型深藍色圓形親水池景觀廣場。',
+    tags: ['5層樓', '學生宿舍', '女宿廣場', '學生餐廳', '生態復育池', '無障礙電梯塔'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：女學生宿舍樓高五層（5F），南面配置寬廣的「女學生宿舍廣場」與親水景觀；北側連通中央廚房與學生餐廳，西北側鄰接生態復育池，南側配置直通 5F 之專屬無障礙電梯塔。',
     floors: [
-      { floor: '1F', desc: '女宿交誼大廳、無障礙友善寢室、生活輔導室' },
-      { floor: '2F-5F', desc: '女學生宿舍標準寢室、景觀陽臺、洗衣房' },
-      { floor: '南側廣場', desc: '大型圓形親水景觀水池、階梯幾何觀景步道' }
+      {
+        floor: '1F',
+        desc: '女宿交誼大廳、無障礙友善寢室、生活輔導室、宿舍廣場',
+        rooms: [
+          { name: '女宿交誼大廳', type: 'service', desc: '接待會客、休閒交誼大廳' },
+          { name: '舍監與生活輔導室', type: 'office', desc: '住宿生生活照護與安全值勤室' },
+          { name: '無障礙友善寢室', type: 'accessible', desc: '寬敞輪椅出入無門檻寢室' }
+        ]
+      },
+      {
+        floor: '2F-5F',
+        desc: '女學生宿舍標準寢室、景觀陽臺、洗衣房',
+        rooms: [
+          { name: '女學生標準寢室', type: 'service', desc: '標準採光寢室與衛浴設備' },
+          { name: '洗衣間與曬衣大露臺', type: 'service', desc: '洗衣機、脫水機與獨立曬衣露臺' }
+        ]
+      },
+      { floor: '南側廣場', desc: '大型圓形親水景觀水池、幾何觀景步道、戶外休憩長椅' }
     ],
     accessibility: [
       '南側外牆配置直通 5F 之獨立無障礙電梯塔',
@@ -329,17 +607,25 @@ const CAMPUS_DATA = [
   },
   {
     id: 'dining_kitchen',
-    name: '學生餐廳與中央廚房',
-    shortName: '餐廳與廚房',
-    enName: 'Dining Hall & Central Kitchen',
+    name: '學生餐廳、中央廚房與食農教學區',
+    shortName: '餐廳、廚房與食農',
+    enName: 'Dining Hall, Kitchen & Agri-food Area',
     icon: 'fa-utensils',
     position: { x: 95, y: 0, z: 5 },
     cameraOffset: { x: -15, y: 32, z: 30 },
-    tags: ['學校餐廳', '中央廚房', '營養午餐'],
-    desc: '連通女學生宿舍，北側為學校中央廚房（X: 88, Z: -2），南側為全校學生大餐廳（X: 96, Z: 10）。',
+    tags: ['學校餐廳', '中央廚房', '洗滌區', '食農教學區', '營養午餐'],
+    desc: '依「雙溪高中校舍平面圖」標準配置：連通女學生宿舍，包含：全校學生大餐廳、現代化中央廚房、洗滌區，以及南側緊鄰之「食農教學區」，為食農教育與全校師生營養午餐的核心基地。',
     floors: [
-      { floor: '廚房', desc: '中央烹飪區、食材冷凍儲存庫、餐具消毒室' },
-      { floor: '餐廳', desc: '全校師生用餐大廳、取餐動線、洗手消毒臺' }
+      {
+        floor: '餐飲與實作區',
+        desc: '學生大餐廳、中央烹飪廚房、洗滌區、食農教學區',
+        rooms: [
+          { name: '全校學生大餐廳', type: 'service', desc: '全校師生集體用餐大廳與取餐動線' },
+          { name: '中央營養午餐廚房', type: 'service', desc: '高規格中央供餐烹飪廚房與保溫配膳室' },
+          { name: '餐具洗滌區', type: 'service', desc: '標準高溫消毒與自動化餐具洗滌區' },
+          { name: '食農教學區', type: 'special', desc: '水耕蔬菜、有機農園與食農體驗教育園地' }
+        ]
+      }
     ],
     accessibility: [
       '餐廳大門平整無階梯，配置無障礙寬門與專屬用餐席'
@@ -498,6 +784,10 @@ function init() {
   buildTerrainAndRiver();
   buildCampusBuildings();
   buildTreesAndDetails();
+
+  // 6-A. 依「雙溪高中校舍平面圖」建立各大樓室內樓板、走廊隔間與3D浮空教室標籤
+  buildIndoorRoomsForBuildings();
+  setupRoomSearchSystem();
 
   // 6-B. 建構全校實體路燈系統與夜燈景觀（支援白天/黑夜模式切換）
   buildStreetLampsAndNightLights();
@@ -1458,10 +1748,39 @@ function buildCampusBuildings() {
 
   // ================= 2. 大智樓 (Da Zhi Building - 3層樓，實景朱紅斜頂+7座老虎窗) =================
   const dazhiGroup = new THREE.Group();
-  // 主建物體（長 52m, 高 9.6m, 深 8.5m）
-  const dazhiBody = createBuildingBlock(52, 9.6, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
-  dazhiBody.position.set(0, 4.8, 0);
-  dazhiGroup.add(dazhiBody);
+  // 主建物體：2F~3F 上部連續橫跨主體（長 52m, 高 6.4m, 深 8.5m，Y: 6.4）
+  const dazhiUpper = createBuildingBlock(52, 6.4, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dazhiUpper.position.set(0, 6.4, 0);
+  dazhiGroup.add(dazhiUpper);
+
+  // ★ 依使用者指示：1F 文化走廊挖穿堂（中央 X: -3.5 ~ +3.5 挖空挑空通透）★
+  // 1F 西段（長 22.5m, 高 3.2m, 深 8.5m，中心 X: -14.75）
+  const dazhi1FWest = createBuildingBlock(22.5, 3.2, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dazhi1FWest.position.set(-14.75, 1.6, 0);
+  // 1F 東段（長 22.5m, 高 3.2m, 深 8.5m，中心 X: 14.75）
+  const dazhi1FEast = createBuildingBlock(22.5, 3.2, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dazhi1FEast.position.set(14.75, 1.6, 0);
+  dazhiGroup.add(dazhi1FWest, dazhi1FEast);
+
+  // ★ 1F 中央文化走廊穿堂設施（寬 7m, 高 3.2m, 完全透空貫通）★
+  const dazhiPassageGrp = new THREE.Group();
+  const dzFloor = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.12, 10.5), new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.8 }));
+  dzFloor.position.set(0, 0.06, 0);
+  dzFloor.receiveShadow = true;
+  dazhiPassageGrp.add(dzFloor);
+
+  // 穿堂承重混凝土方柱（兩側各 2 根）
+  [[-3.2, -3.8], [-3.2, 3.8], [3.2, -3.8], [3.2, 3.8]].forEach(([px, pz]) => {
+    const col = new THREE.Mesh(new THREE.BoxGeometry(0.6, 3.2, 0.6), materials.whiteConcrete);
+    col.position.set(px, 1.6, pz);
+    dazhiPassageGrp.add(col);
+  });
+
+  // 穿堂北面拱門上方「文化走廊 穿堂」金色字牌
+  const dzSign = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.45, 0.1), new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 }));
+  dzSign.position.set(0, 2.9, -4.3);
+  dazhiPassageGrp.add(dzSign);
+  dazhiGroup.add(dazhiPassageGrp);
 
   // ★ 航拍特徵：鮮豔朱紅人字雙坡斜屋頂 + 朝向中庭整齊排列 7 個三角採光老虎窗！★
   const dazhiRoof = createPitchedRoofWithDormers(52, 9.4, 3.2, 7, -1);
@@ -1501,9 +1820,39 @@ function buildCampusBuildings() {
 
   // ================= 3. 大勇樓 (Da Yong Building - 3層樓，實景朱紅斜頂+5座老虎窗) =================
   const dayongGroup = new THREE.Group();
-  const dayongBody = createBuildingBlock(44, 9.6, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
-  dayongBody.position.set(0, 4.8, 0);
-  dayongGroup.add(dayongBody);
+  // 主建物體：2F~3F 上部連續橫跨主體（長 44m, 高 6.4m, 深 8.5m，Y: 6.4）
+  const dayongUpper = createBuildingBlock(44, 6.4, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dayongUpper.position.set(0, 6.4, 0);
+  dayongGroup.add(dayongUpper);
+
+  // ★ 依使用者指示：1F 文化走廊挖穿堂（中央 X: -3.5 ~ +3.5 挖空挑空通透，正對大智樓穿堂）★
+  // 1F 西段（長 18.5m, 高 3.2m, 深 8.5m，中心 X: -12.75）
+  const dayong1FWest = createBuildingBlock(18.5, 3.2, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dayong1FWest.position.set(-12.75, 1.6, 0);
+  // 1F 東段（長 18.5m, 高 3.2m, 深 8.5m，中心 X: 12.75）
+  const dayong1FEast = createBuildingBlock(18.5, 3.2, 8.5, materials.whiteConcrete, materials.windowDark, materials.corridorWall);
+  dayong1FEast.position.set(12.75, 1.6, 0);
+  dayongGroup.add(dayong1FWest, dayong1FEast);
+
+  // ★ 1F 中央文化走廊穿堂設施（寬 7m, 高 3.2m, 完全透空貫通）★
+  const dayongPassageGrp = new THREE.Group();
+  const dyFloor = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.12, 10.5), new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.8 }));
+  dyFloor.position.set(0, 0.06, 0);
+  dyFloor.receiveShadow = true;
+  dayongPassageGrp.add(dyFloor);
+
+  // 穿堂承重方柱（兩側各 2 根）
+  [[-3.2, -3.8], [-3.2, 3.8], [3.2, -3.8], [3.2, 3.8]].forEach(([px, pz]) => {
+    const col = new THREE.Mesh(new THREE.BoxGeometry(0.6, 3.2, 0.6), materials.whiteConcrete);
+    col.position.set(px, 1.6, pz);
+    dayongPassageGrp.add(col);
+  });
+
+  // 穿堂南面拱門上方「文化走廊 穿堂」金色字牌
+  const dySign = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.45, 0.1), new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.3 }));
+  dySign.position.set(0, 2.9, 4.3);
+  dayongPassageGrp.add(dySign);
+  dayongGroup.add(dayongPassageGrp);
 
   // ★ 航拍特徵：鮮豔朱紅人字雙坡斜屋頂 + 朝向中庭整齊排列 5 個三角採光老虎窗！★
   const dayongRoof = createPitchedRoofWithDormers(44, 9.4, 3.2, 5, 1);
@@ -1775,41 +2124,39 @@ function buildCampusBuildings() {
   westRoof.position.set(0, 8.85, 0);
   westBlockGrp.add(westRoof);
 
-  westBlockGrp.position.set(-18, 8.25, 0);
+  // ★ 依使用者指示 media_1791538143072.png：徹底刪除冗長之中間棟 (midBlockGrp)！
+  // 西側棟緊密銜接東側館西壁（寬 15m，中心 X: 0.5，範圍 X: -7.0 到 +8.0），與東側館無縫合體！
+  westBlockGrp.position.set(0.5, 8.25, 0);
   complexGroup.add(westBlockGrp);
 
-  // (2) 中間行政與教學連通棟 (Mid Block - 局部 X: -1, 寬 18m, 高 16.5m, 深 14m)
-  const midBlockGrp = new THREE.Group();
-  const midCore = new THREE.Mesh(new THREE.BoxGeometry(18, 16.5, 13.6), complexWallMat);
-  midBlockGrp.add(midCore);
-
-  // 中棟朝馬路（北面，Z = -6.8）精緻排窗立面（4排 x 4列大採光窗，徹底消滅死黑大方塊！）
-  const midNorthFacade = createModernWallWithWindows(18, 16.5, 5, 4, 2.0, 1.5);
-  midNorthFacade.position.set(0, 0, -6.8);
-  midBlockGrp.add(midNorthFacade);
-
-  // 中棟朝中庭（南面，Z = 6.8）排窗立面
-  const midSouthFacade = createModernWallWithWindows(18, 16.5, 5, 4, 2.0, 1.5);
-  midSouthFacade.position.set(0, 0, 6.8);
-  midBlockGrp.add(midSouthFacade);
-
-  // 中棟屋頂朱紅瓦坡頂
-  const midRoof = new THREE.Mesh(new THREE.BoxGeometry(18.0, 1.4, 14.8), materials.pitchedRedRoof);
-  midRoof.position.set(0, 8.95, 0);
-  midBlockGrp.add(midRoof);
-
-  midBlockGrp.position.set(-1, 8.25, 0);
-  complexGroup.add(midBlockGrp);
-
-  // (3) ★★★ 東側標誌性核心主館（朝向梅竹蹊路馬路之經典旗艦立面）★★★
-  // 寬 17m, 高 18.5m, 深 15m，局部 X: 16.5（臨教學大樓東側）
+  // (3) ★★★ 東側標誌性核心主館（依實景照片 media_1791535513001.png 真實挖空大穿堂與大階梯！）★★★
+  // 寬 17m, 高 18.5m, 深 14.6m，局部 X: 16.5, Y: 9.25, Z: 0
   const eastHallGrp = new THREE.Group();
-  const eastCore = new THREE.Mesh(new THREE.BoxGeometry(17, 18.5, 14.6), complexWallMat);
-  eastHallGrp.add(eastCore);
 
-  // 頂部拱弧形優雅挑高雙坡瓦頂（依街景照片：頂棚為紅瓦，南北兩端山牆端面為米黃外牆）
+  // (A) ★ 核心修正：徹底淘汰實心擋死盒子！上部 2F~6F 連續橫跨主體（高 13.75m, Y 中心: 2.375）★
+  const eastUpperBody = new THREE.Mesh(
+    new THREE.BoxGeometry(17, 13.75, 14.6),
+    complexWallMat
+  );
+  eastUpperBody.position.set(0, 2.375, 0);
+  eastUpperBody.castShadow = true;
+  eastUpperBody.receiveShadow = true;
+  eastHallGrp.add(eastUpperBody);
+
+  // (B) ★ 1F 實體側牆：面向操場跑道側（東立面 X: 8.5）中央寬度 11.2m 完全大敞開為挑高大穿堂！★
+  // 1F 北側支撐結構（寬 17.0m, 高 4.75m, 厚 1.8m，中心 Z: -6.4, Y: -6.875）
+  const east1FNorth = new THREE.Mesh(new THREE.BoxGeometry(17.0, 4.75, 1.8), complexWallMat);
+  east1FNorth.position.set(0, -6.875, -6.4);
+  // 1F 南側支撐結構（寬 17.0m, 高 4.75m, 厚 1.8m，中心 Z: 6.4, Y: -6.875）
+  const east1FSouth = new THREE.Mesh(new THREE.BoxGeometry(17.0, 4.75, 1.8), complexWallMat);
+  east1FSouth.position.set(0, -6.875, 6.4);
+  // 1F 西側連通隔牆柱（厚 2.0m, 高 4.75m, 深 11.0m，中心 X: -7.5, Y: -6.875）
+  const east1FWestCol = new THREE.Mesh(new THREE.BoxGeometry(2.0, 4.75, 11.0), complexWallMat);
+  east1FWestCol.position.set(-7.5, -6.875, 0);
+  eastHallGrp.add(east1FNorth, east1FSouth, east1FWestCol);
+
+  // (C) 頂部優雅拱弧形雙坡紅瓦頂
   const eastRoofGeo = new THREE.CylinderGeometry(8.6, 8.6, 17.2, 32, 1, false, 0, Math.PI);
-  // Three.js CylinderGeometry 材質陣列：[側弧面, 底面1, 底面2]
   const archRoofMaterials = [
     materials.pitchedRedRoof, // 側弧面：鮮豔朱紅瓦坡頂棚
     complexWallMat,           // 北端山牆面：米黃面磚山牆
@@ -1892,8 +2239,7 @@ function buildCampusBuildings() {
     sCtx.fillText('New Taipei Municipal Shuang-Xi High School', cx, 545);
   }
 
-  // 2. 動態生成【朝校內（面朝中庭）】純淨立面貼圖（使用者明確指示：朝裡面那側沒有字！）
-  // 僅保留典雅米黃面磚與細緻菱形斜交格線，絕不放置任何校徽與校名題字！
+  // 2. 動態生成【朝校內（面朝中庭）】純淨立面貼圖
   const innerFacadeCanvas = document.createElement('canvas');
   innerFacadeCanvas.width = 2048;
   innerFacadeCanvas.height = 1024;
@@ -1924,11 +2270,11 @@ function buildCampusBuildings() {
   const streetFacadeTextureNorth = new THREE.CanvasTexture(streetFacadeCanvas);
   streetFacadeTextureNorth.anisotropy = 4;
 
-  // 朝南面朝校內中庭專用貼圖（純菱形格紋面磚，無字、無校徽！）
+  // 朝南面朝校內中庭專用貼圖（純菱形格紋面磚）
   const innerFacadeTextureSouth = new THREE.CanvasTexture(innerFacadeCanvas);
   innerFacadeTextureSouth.anisotropy = 4;
 
-  // 輔助函式：建立立體真實的特色立面幾何（精確呈現街景照片之一切構件）
+  // 輔助函式：建立立體真實的特色立面幾何
   const createStreetFeatureFacade = (isFacingRoad) => {
     const facadeGrp = new THREE.Group();
 
@@ -1952,19 +2298,16 @@ function buildCampusBuildings() {
     facadeGrp.add(btmWall);
 
     // (C) 核心「經典亮天藍色馬賽克造型窗套」（立體凸出 0.55m）
-    // 照片中窗套正對中央，寬度約 7.8m，高度 5.8m
     const mosaicFrame = new THREE.Mesh(new THREE.BoxGeometry(7.8, 5.8, 0.55), mosaicBlueMat);
     mosaicFrame.position.set(0, -2.5, 0.28);
     facadeGrp.add(mosaicFrame);
 
-    // 窗套內上下兩排直櫺採光窗（上排 4 扇大窗，下排 4 扇加裝白色防護格柵）
+    // 窗套內上下兩排直櫺採光窗
     for (let wi = -2.8; wi <= 2.8; wi += 1.85) {
-      // 上排長條深色採光玻璃
       const topWin = new THREE.Mesh(new THREE.BoxGeometry(1.25, 2.1, 0.2), materials.windowDark);
       topWin.position.set(wi, -1.2, 0.48);
       facadeGrp.add(topWin);
 
-      // 下排採光窗與白色金屬安全防護格柵
       const btmWin = new THREE.Mesh(new THREE.BoxGeometry(1.25, 1.9, 0.2), materials.windowDark);
       btmWin.position.set(wi, -3.7, 0.48);
       const grill = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.8, 0.08), materials.whiteConcrete);
@@ -1972,7 +2315,7 @@ function buildCampusBuildings() {
       facadeGrp.add(btmWin, grill);
     }
 
-    // (D) 窗套左側上下兩排共 4 扇外凸水泥灰色方形窗（依照片特徵）
+    // (D) 窗套側邊外凸方形窗
     const winLeftXs = isFacingRoad ? [-5.5, -7.3] : [5.5, 7.3];
     const winYs = [-1.2, -3.7];
     winLeftXs.forEach(fx => {
@@ -1992,19 +2335,17 @@ function buildCampusBuildings() {
     highWinGlass.position.set(0, 1.0, 0.22);
     facadeGrp.add(highWinFrame, highWinGlass);
 
-    // (F) 側邊門廳斜頂入口雨棚與迎賓臺階（依照片右側門廳）
+    // (F) 側邊門廳斜頂入口雨棚與迎賓臺階
     const canopyX = isFacingRoad ? 5.8 : -5.8;
     const canopy = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.22, 2.8), mosaicBlueMat);
     canopy.rotation.x = isFacingRoad ? -0.15 : 0.15;
     canopy.position.set(canopyX, -5.8, 1.1);
 
-    // 雨棚支撐圓鋼柱
     const pillar1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3.6, 8), materials.whiteConcrete);
     pillar1.position.set(canopyX + (isFacingRoad ? 1.6 : -1.6), -7.5, 2.1);
     const pillar2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3.6, 8), materials.whiteConcrete);
     pillar2.position.set(canopyX - (isFacingRoad ? 1.6 : -1.6), -7.5, 2.1);
 
-    // 迎賓花崗石臺階
     const stairs = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.45, 2.0), materials.whiteConcrete);
     stairs.position.set(canopyX, -9.0, 0.8);
 
@@ -2012,16 +2353,132 @@ function buildCampusBuildings() {
     return facadeGrp;
   };
 
-  // ★ 1. 面向梅竹蹊路（朝馬路，北面，Z = -7.35）之經典旗艦立面（完全正對照片拍攝視角！）★
+  // (D) 朝梅竹蹊路（北面，Z = -7.35）立面
   const northRoadFacade = createStreetFeatureFacade(true);
   northRoadFacade.position.set(0, 0, -7.35);
-  northRoadFacade.rotation.y = Math.PI; // 面朝梅竹蹊路 (-Z 方向)！
+  northRoadFacade.rotation.y = Math.PI;
   eastHallGrp.add(northRoadFacade);
 
-  // ★ 2. 面向中庭廣場（朝校內，南面，Z = 7.35）之完整經典立面 ★
-  const southCourtyardFacade = createStreetFeatureFacade(false);
-  southCourtyardFacade.position.set(0, 0, 7.35);
-  eastHallGrp.add(southCourtyardFacade);
+  // (E) ★ 南立面（面向中庭與教學大樓，Z = 7.35）外觀 ★
+  const southFacadeGrp = new THREE.Group();
+  const sTopWall = new THREE.Mesh(new THREE.BoxGeometry(17, 13.75, 0.4), complexWallMat);
+  sTopWall.position.set(0, 2.375, 7.3);
+  southFacadeGrp.add(sTopWall);
+
+  // 南立面上半部標準採光排窗
+  for (let wx = -5.4; wx <= 5.4; wx += 3.6) {
+    const sWin = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.0, 0.46), materials.windowDark);
+    sWin.position.set(wx, 3.2, 7.3);
+    southFacadeGrp.add(sWin);
+  }
+  eastHallGrp.add(southFacadeGrp);
+
+  // (F) ★★★ 東立面（正對操場跑道側 X = 8.5）：依使用者紅圈與照片實景精確開立挑高大穿堂與合照大階梯！★★★
+  const eastTrackFacadeGrp = new THREE.Group();
+
+  // 1. 東立面 2F~6F 現代排窗外牆（消滅死白大方塊！高 13.75m，寬 14.6m 即 Z: -7.3 到 +7.3）
+  const eWallPlate = new THREE.Mesh(new THREE.BoxGeometry(0.35, 13.75, 14.6), complexWallMat);
+  eWallPlate.position.set(8.52, 2.375, 0);
+  eastTrackFacadeGrp.add(eWallPlate);
+
+  // 東立面 2F~6F 白色水平分層腰線
+  [-2.2, 2.3, 6.8].forEach(by => {
+    const eBand = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.28, 14.8), floorBandMat);
+    eBand.position.set(8.55, by, 0);
+    eastTrackFacadeGrp.add(eBand);
+  });
+
+  // 東立面 2F~6F 標準現代採光窗格矩陣（3 排 x 4 列，白色窗框 + 深色玻璃）
+  for (let r = 0; r < 3; r++) {
+    const wy = 0.0 + r * 4.4;
+    for (let c = -4.5; c <= 4.5; c += 3.0) {
+      // 窗框
+      const cFrame = new THREE.Mesh(new THREE.BoxGeometry(0.42, 2.2, 1.8), materials.whiteConcrete);
+      cFrame.position.set(8.58, wy, c);
+      // 採光玻璃
+      const cGlass = new THREE.Mesh(new THREE.BoxGeometry(0.44, 2.0, 1.6), materials.windowDark);
+      cGlass.position.set(8.59, wy, c);
+      // 窗格橫挺
+      const cMull = new THREE.Mesh(new THREE.BoxGeometry(0.46, 0.08, 1.6), materials.whiteConcrete);
+      cMull.position.set(8.60, wy, c);
+      eastTrackFacadeGrp.add(cFrame, cGlass, cMull);
+    }
+  }
+
+  // 2. ★ 1F 挑高大穿堂（挑高 4.75m，依使用者指示寬度精確設為 7.2m，兩側為穩固實體外牆！）★
+  // (1) 東立面 1F 北側外牆（寬 3.7m，高 4.75m，中心 Z: -5.45, Y: -6.875）
+  const e1FNorthWall = new THREE.Mesh(new THREE.BoxGeometry(0.35, 4.75, 3.7), complexWallMat);
+  e1FNorthWall.position.set(8.52, -6.875, -5.45);
+  // (2) 東立面 1F 南側外牆（寬 3.7m，高 4.75m，中心 Z: 5.45, Y: -6.875）
+  const e1FSouthWall = new THREE.Mesh(new THREE.BoxGeometry(0.35, 4.75, 3.7), complexWallMat);
+  e1FSouthWall.position.set(8.52, -6.875, 5.45);
+  eastTrackFacadeGrp.add(e1FNorthWall, e1FSouthWall);
+
+  const breezewayHall = new THREE.Group();
+
+  // (3) 挑高頂棚（深灰吸音底層，寬 7.2m，Y: -4.5）
+  const bwCeiling = new THREE.Mesh(
+    new THREE.BoxGeometry(16.0, 0.2, 7.2),
+    new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.7 })
+  );
+  bwCeiling.position.set(0, -4.5, 0);
+  breezewayHall.add(bwCeiling);
+
+  // (4) 天花板承重橫樑結構與金色聚光嵌燈（依合照 media_1791535513001.png 特徵）
+  for (let bx = 7.0; bx >= -7.0; bx -= 3.5) {
+    const bBeam = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.65, 7.2), materials.whiteConcrete);
+    bBeam.position.set(bx, -4.8, 0);
+    breezewayHall.add(bBeam);
+
+    // 橫樑上排溫暖金色嵌燈
+    [-2.2, 0, 2.2].forEach(lz => {
+      const bLamp = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.2, 0.2, 0.08, 12),
+        new THREE.MeshStandardMaterial({ color: 0xfef08a, emissive: 0xfde047, emissiveIntensity: 0.9 })
+      );
+      bLamp.position.set(bx, -5.1, lz);
+      breezewayHall.add(bLamp);
+    });
+  }
+
+  // (5) 穿堂內部平整大理石地面（寬 7.2m，Y: -8.25）
+  const bwFloorMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.5 });
+  const bwFloor = new THREE.Mesh(new THREE.BoxGeometry(16.0, 0.2, 7.2), bwFloorMat);
+  bwFloor.position.set(0, -8.15, 0);
+  bwFloor.receiveShadow = true;
+  breezewayHall.add(bwFloor);
+
+  // (6) 正面東門楣上方「雙溪高中校舍大穿堂」金色立體題字牌匾（寬 6.8m，精準居中對齊 7.2m 開口）
+  const signMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(0.3, 0.75, 6.8),
+    new THREE.MeshStandardMaterial({ color: 0x0284c7, roughness: 0.28, metalness: 0.5 })
+  );
+  signMesh.position.set(8.65, -4.0, 0);
+  breezewayHall.add(signMesh);
+
+  // (7) ★★★ 照片最醒目核心主角：全幅寬敞「5 階大理石合照大階梯」(Grand Photo Stairs) ★★★
+  // 自穿堂東門平臺（X: 8.5）向東（正對操場跑道方向）逐階向下鋪設，精準對齊 7.2m 開口！
+  const stairMarbleMat = new THREE.MeshStandardMaterial({ color: 0xd1d5db, roughness: 0.5 });
+  const numSteps = 5;
+  const sRise = 0.20; // 階高 20cm
+  const sRun = 0.65;  // 踏面深 65cm (寬敞，足夠學生並肩合照站立就座)
+
+  for (let s = 0; s < numSteps; s++) {
+    const sW = 7.2 + s * 0.15; // 寬度沿 Z 軸 (7.2m ~ 7.8m，精準契合使用者紅框範圍)
+    const sD = sRun;           // 踏面深沿 X 軸 (向操場跑道延伸)
+    const sH = sRise;          // 階高沿 Y 軸
+    const sMesh = new THREE.Mesh(new THREE.BoxGeometry(sD, sH, sW), stairMarbleMat);
+    // 依序向東 (+X 方向，正對跑道) 逐階延伸
+    const sX = 8.5 + (s + 0.5) * sRun;
+    // 依序由高 (穿堂門口 Y: -8.25) 向低 (操場地面 Y: -9.05 ~ -9.25) 鋪出
+    const sY = -8.25 - (s * sRise);
+    sMesh.position.set(sX, sY, 0);
+    sMesh.receiveShadow = true;
+    breezewayHall.add(sMesh);
+  }
+
+  eastTrackFacadeGrp.add(breezewayHall);
+  eastHallGrp.add(eastTrackFacadeGrp);
 
   eastHallGrp.position.set(16.5, 9.25, 0);
   complexGroup.add(eastHallGrp);
@@ -2052,10 +2509,11 @@ function buildCampusBuildings() {
   pyramidRoof.castShadow = true;
   complexTower.add(pyramidRoof);
 
-  complexTower.position.set(-27, 0, 3);
+  // 鐘樓方塔緊貼西側棟西南角（X: -8.5, Z: 3）
+  complexTower.position.set(-8.5, 0, 3);
   complexGroup.add(complexTower);
 
-  // (5) 屋頂維持平整乾淨的朱紅斜瓦坡頂，移除多餘突出的紅色結構
+  // (5) 屋頂維持平整乾淨的朱紅斜瓦坡頂
 
   // (6) ★ 轉角無障礙電梯塔（墨綠鋼柱 + 天藍透光玻璃觀景梯）★
   const elevGroup = new THREE.Group();
@@ -2073,12 +2531,30 @@ function buildCampusBuildings() {
   elevGroup.position.set(18.5, 0, 8.5);
   complexGroup.add(elevGroup);
 
-  // (7) 北側臨梅竹蹊路綠化景觀步道與安全圍欄
-  const frontWalkway = new THREE.Mesh(new THREE.BoxGeometry(56, 0.14, 3.2), new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.8 }));
-  frontWalkway.position.set(0, 0.07, -9.5);
+  // (7) 北側臨梅竹蹊路綠化景觀步道（長度適配大樓縮短後之 36m）
+  const frontWalkway = new THREE.Mesh(new THREE.BoxGeometry(36, 0.14, 3.2), new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.8 }));
+  frontWalkway.position.set(9.0, 0.07, -9.5);
   complexGroup.add(frontWalkway);
 
   // 定位於 (X: -52, Z: -21)，東側外牆精準止於 X: -27.0，既比教學大樓凸出，又與跑道保持 11.5 米暢通！
+  // ★ 依使用者指示圖片 media_1791534925389.png 核心校正：★
+  // 1. 穿堂直接開在白色建築南面 (紅色「穿」字位置)！
+  // 2. 徹底移除藍色圈起的多餘立柱與橫桿！
+  // 3. 淺藍色地坪完全擴展至黃色塗抹區域，並無縫深入鋪設進穿堂內部！
+  const drGreenPlazaGrp = new THREE.Group();
+
+  // (1) 擴展後之淺藍色地坪（寬 24.0m, 深 24.0m，完全涵蓋東立面大穿堂階梯前坪、教學大樓間隙並一路平鋪至操場跑道邊緣）
+  const drGreenFloor = new THREE.Mesh(
+    new THREE.BoxGeometry(24.0, 0.14, 24.0),
+    new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.65 })
+  );
+  // 定位於 X: 30.0（承接東立面大階梯腳下 X: 28.25 並延伸至跑道邊緣），Z: 2.0
+  drGreenFloor.position.set(30.0, 0.07, 2.0);
+  drGreenFloor.receiveShadow = true;
+  drGreenPlazaGrp.add(drGreenFloor);
+
+  complexGroup.add(drGreenPlazaGrp);
+
   complexGroup.position.set(-52, 0, -21);
   scene.add(complexGroup);
   setupBuildingInteractive(complexGroup, 'complex');
@@ -2087,10 +2563,27 @@ function buildCampusBuildings() {
   // 使用者明確指定：教學大樓有 5 層樓（高度 16.0m，Y中心 8.0）！
   // 建築量體完全獨立，北端與多功能大樓南牆無縫結合，東牆位於 X: -31.5，完全在多功能大樓突出翼內側！
   const teachingGroup = new THREE.Group();
-  // 教學大樓主體（長度 30, 寬度 9, 高度 16.0，5層樓獨立長棟）
-  const teachBody = createBuildingBlock(9, 16.0, 30, materials.teachingOrange, materials.windowDark, materials.darkRoof);
-  teachBody.position.set(0, 8.0, 0);
-  teachingGroup.add(teachBody);
+  // 教學大樓：2F~5F 上部連續橫跨主體（寬 9, 高 12.8, 深 30，Y: 9.6）
+  const teachUpper = createBuildingBlock(9, 12.8, 30, materials.teachingOrange, materials.windowDark, materials.darkRoof);
+  teachUpper.position.set(0, 9.6, 0);
+  teachingGroup.add(teachUpper);
+
+  // ★ 依使用者指示：教學大樓 1F 文化走廊也是穿堂！中央 Z: -0.5 ~ +4.5 挖空挑空通透 ★
+  // 1F 北段（深 14.5m，高 3.2m，寬 9m，中心 Z: -7.75）
+  const teach1FNorth = createBuildingBlock(9, 3.2, 14.5, materials.teachingOrange, materials.windowDark, materials.darkRoof);
+  teach1FNorth.position.set(0, 1.6, -7.75);
+  // 1F 南段（深 10.5m，高 3.2m，寬 9m，中心 Z: 9.75）
+  const teach1FSouth = createBuildingBlock(9, 3.2, 10.5, materials.teachingOrange, materials.windowDark, materials.darkRoof);
+  teach1FSouth.position.set(0, 1.6, 9.75);
+  teachingGroup.add(teach1FNorth, teach1FSouth);
+
+  // ★ 1F 中央文化走廊穿堂（深 5m, 寬 9m, 高 3.2m, 完全透空貫通，依指示移除遮擋立柱與橫桿）★
+  const teachPassageGrp = new THREE.Group();
+  const teachPassageFloor = new THREE.Mesh(new THREE.BoxGeometry(9.2, 0.12, 5.0), new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.8 }));
+  teachPassageFloor.position.set(0, 0.06, 2.0);
+  teachPassageFloor.receiveShadow = true;
+  teachPassageGrp.add(teachPassageFloor);
+  teachingGroup.add(teachPassageGrp);
 
   // 教學大樓南側專用停車場 (P) 與無障礙出入口
   const teachPark = new THREE.Mesh(new THREE.BoxGeometry(11, 0.1, 10), materials.parkingLot);
@@ -3273,17 +3766,67 @@ function updateDetailPanel(data) {
     tagsRow.appendChild(span);
   });
 
-  // 樓層配置
+  // 樓層配置與室內格局
   const floorList = document.getElementById('floor-list');
+  const floorTabs = document.getElementById('floor-tabs');
+  const floorLayoutBox = document.getElementById('floor-layout-box');
+  const btnPanelXray = document.getElementById('btn-panel-xray');
+
   floorList.innerHTML = '';
-  if (data.floors && data.floors.length > 0) {
+  if (floorTabs) floorTabs.innerHTML = '';
+
+  const hasFloors = data.floors && data.floors.length > 0;
+  // ★ 動態判定：只要該建築任一樓層包含房間資料 (rooms)，即全面啟用室內空間標示、2D格局地圖與透視開關！
+  const hasIndoorRooms = hasFloors && data.floors.some(f => f.rooms && f.rooms.length > 0);
+
+  if (hasFloors) {
     document.getElementById('floors-section').style.display = 'block';
-    data.floors.forEach(f => {
-      const item = document.createElement('div');
-      item.className = 'floor-item';
-      item.innerHTML = `<span class="floor-tag">${f.floor}</span><span class="floor-desc">${f.desc}</span>`;
-      floorList.appendChild(item);
-    });
+
+    // 室內透視開關連動
+    if (btnPanelXray) {
+      btnPanelXray.style.display = hasIndoorRooms ? 'inline-flex' : 'none';
+      btnPanelXray.classList.toggle('active', isIndoorXRay && activeXRayBuilding === data.id);
+      btnPanelXray.onclick = () => {
+        const nextState = !(isIndoorXRay && activeXRayBuilding === data.id);
+        toggleIndoorXRay(nextState, data.id);
+        btnPanelXray.classList.toggle('active', nextState);
+      };
+    }
+
+    if (hasIndoorRooms) {
+      if (floorLayoutBox) floorLayoutBox.style.display = 'block';
+
+      // 產生樓層 Tab 按鈕
+      data.floors.forEach((f, idx) => {
+        const tabBtn = document.createElement('button');
+        tabBtn.className = `floor-tab-btn ${idx === 0 ? 'active' : ''}`;
+        tabBtn.setAttribute('data-index', idx);
+        tabBtn.textContent = f.floor;
+
+        tabBtn.addEventListener('click', () => {
+          document.querySelectorAll('.floor-tab-btn').forEach(b => b.classList.remove('active'));
+          tabBtn.classList.add('active');
+          renderFloorPlan(data, idx);
+          if (isIndoorXRay) {
+            filterIndoorFloor(data.id, idx);
+          }
+        });
+
+        floorTabs.appendChild(tabBtn);
+      });
+
+      // 預設渲染 1F (index 0) 的 2D 平面格局圖
+      renderFloorPlan(data, 0);
+    } else {
+      // 一般設施（無複雜室內教室，如操場、景點）
+      if (floorLayoutBox) floorLayoutBox.style.display = 'none';
+      data.floors.forEach(f => {
+        const item = document.createElement('div');
+        item.className = 'floor-item';
+        item.innerHTML = `<span class="floor-tag">${f.floor}</span><span class="floor-desc">${f.desc}</span>`;
+        floorList.appendChild(item);
+      });
+    }
   } else {
     document.getElementById('floors-section').style.display = 'none';
   }
@@ -3667,6 +4210,14 @@ function onPointerDown(event) {
 
     for (let i = 0; i < intersects.length; i++) {
       const obj = intersects[i].object;
+      if (obj.userData && obj.userData.isRoom) {
+        focusOnRoom(obj.userData.buildingId, obj.userData.floorIndex, obj.userData.roomIndex, obj.userData.roomData);
+        break;
+      }
+      if (obj.userData && obj.userData.isRoomLabel) {
+        focusOnRoom(obj.userData.buildingId, obj.userData.floorIndex, obj.userData.roomIndex, obj.userData.roomData);
+        break;
+      }
       if (obj.userData && obj.userData.buildingId) {
         focusOnBuilding(obj.userData.buildingId);
         break;
@@ -4280,8 +4831,852 @@ function animate(time) {
   updateCampusDog(delta);
   updateRiverFish(delta);
   updateScreenLabels();
+  updateRoomHighlightAnim(time);
   renderer.render(scene, camera);
 }
 
 // 啟動程式
 window.addEventListener('DOMContentLoaded', init);
+
+
+
+// ============================================================================
+// ★ 室內空間 3D 可視化、樓層透視系統 (X-Ray)、2D 平面格局圖與教室智慧搜尋 ★
+// 依據「雙溪高中校舍平面圖」標準配置深度開發
+// ============================================================================
+
+let indoorGroups = new Map(); // 建築 ID -> THREE.Group (包含室內樓板、隔間與標籤)
+let isIndoorXRay = false;
+let activeXRayBuilding = null;
+let currentFloorFilter = 'all';
+let indoorRoomSprites = [];
+let allCampusRooms = []; // 全校所有教室與處室平坦清單供搜尋使用
+let currentHighlightedRoom = null; // 當前單獨高亮的房間資訊
+let roomHighlightBeacon = null;    // 3D 浮動發光指標與地面雷達光環
+
+/**
+ * 依房間類型取得顏色主題與圖示
+ */
+function getRoomTypeMeta(type) {
+  switch (type) {
+    case 'office':
+      return { color: '#f59e0b', hex: 0xf59e0b, icon: 'fa-briefcase', label: '行政處室' };
+    case 'classroom':
+      return { color: '#0ea5e9', hex: 0x0ea5e9, icon: 'fa-chalkboard-user', label: '普通教室' };
+    case 'lab':
+      return { color: '#10b981', hex: 0x10b981, icon: 'fa-flask', label: '實驗/專科' };
+    case 'special':
+      return { color: '#8b5cf6', hex: 0x8b5cf6, icon: 'fa-palette', label: '特色/研討' };
+    case 'hall':
+      return { color: '#ec4899', hex: 0xec4899, icon: 'fa-masks-theater', label: '大型展演' };
+    case 'accessible':
+      return { color: '#06b6d4', hex: 0x06b6d4, icon: 'fa-wheelchair', label: '無障礙設施' };
+    case 'restroom':
+      return { color: '#64748b', hex: 0x64748b, icon: 'fa-restroom', label: '化妝室' };
+    case 'corridor':
+      return { color: '#475569', hex: 0x475569, icon: 'fa-arrows-left-right', label: '走廊通道' };
+    case 'service':
+    default:
+      return { color: '#71717a', hex: 0x71717a, icon: 'fa-door-closed', label: '設備設施' };
+  }
+}
+
+/**
+ * 動態建立高清晰度 Canvas 3D Sprite 浮空教室銘牌
+ */
+function createRoomSpriteLabel(roomName, roomType) {
+  const meta = getRoomTypeMeta(roomType);
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 160;
+  const ctx = canvas.getContext('2d');
+
+  // 背景半透明圓角玻璃卡片
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+  ctx.strokeStyle = meta.color;
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.roundRect(16, 16, 480, 128, 24);
+  ctx.fill();
+  ctx.stroke();
+
+  // 頂部彩色發光指示線
+  ctx.fillStyle = meta.color;
+  ctx.beginPath();
+  ctx.roundRect(40, 22, 432, 12, 6);
+  ctx.fill();
+
+  // 教室/處室名稱文字
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 44px "Noto Sans TC", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  
+  // 縮短過長字元
+  let displayTitle = roomName;
+  if (displayTitle.length > 10) {
+    displayTitle = displayTitle.substring(0, 9) + '…';
+  }
+  ctx.fillText(displayTitle, 256, 78);
+
+  // 空間分類標籤徽章
+  ctx.fillStyle = meta.color;
+  ctx.font = '500 24px "Noto Sans TC", sans-serif';
+  ctx.fillText(meta.label, 256, 116);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  const spriteMat = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    opacity: 0.95,
+    depthTest: true,
+    depthWrite: false
+  });
+  const sprite = new THREE.Sprite(spriteMat);
+  sprite.scale.set(6.2, 1.9, 1);
+  return sprite;
+}
+
+/**
+ * 為四大主要建築與生活區建立實體 3D 室內樓板、走廊、教室隔間方塊與浮空標籤
+ */
+function buildIndoorRoomsForBuildings() {
+  const indoorConfig = [
+    {
+      id: 'dazhi',
+      w: 50, h: 9.6, d: 8.2,
+      axis: 'x', // 教室沿 X 軸線性排列
+      floorsCount: 3,
+      baseY: 0
+    },
+    {
+      id: 'dayong',
+      w: 42, h: 9.6, d: 8.2,
+      axis: 'x',
+      floorsCount: 3,
+      baseY: 0
+    },
+    {
+      id: 'teaching',
+      w: 8.4, h: 16.0, d: 29.0,
+      axis: 'z', // 教室沿 Z 軸線性排列 (南北向)
+      floorsCount: 5,
+      baseY: 0
+    },
+    {
+      id: 'complex',
+      w: 32.0, h: 18.0, d: 14.6,
+      centerX: 8.75, // 縮短 18 米後，西側棟與東側主館合體之中心 X 軸
+      axis: 'x',
+      floorsCount: 6,
+      baseY: 0
+    },
+    {
+      id: 'activity',
+      w: 19.0, h: 13.5, d: 30.0,
+      axis: 'z',
+      floorsCount: 2,
+      baseY: 0
+    },
+    {
+      id: 'west_services',
+      w: 9.6, h: 3.8, d: 19.0,
+      axis: 'z',
+      floorsCount: 1,
+      baseY: 0
+    },
+    {
+      id: 'male_dorm',
+      w: 22.0, h: 16.0, d: 13.0,
+      axis: 'x',
+      floorsCount: 2,
+      baseY: 0
+    },
+    {
+      id: 'female_dorm',
+      w: 21.0, h: 16.0, d: 13.5,
+      axis: 'x',
+      floorsCount: 2,
+      baseY: 0
+    }
+  ];
+
+  indoorConfig.forEach(cfg => {
+    const bGroup = buildingObjects.get(cfg.id);
+    const bData = CAMPUS_DATA.find(d => d.id === cfg.id);
+    if (!bGroup || !bData || !bData.floors) return;
+
+    const buildingIndoorGroup = new THREE.Group();
+    buildingIndoorGroup.name = `indoor_${cfg.id}`;
+    buildingIndoorGroup.visible = false; // 預設平常隱藏，透視模式時顯現
+
+    const floorH = cfg.h / cfg.floorsCount;
+    const cx = cfg.centerX || 0;
+    const cz = cfg.centerZ || 0;
+
+    bData.floors.forEach((fl, flIdx) => {
+      const floorGroup = new THREE.Group();
+      floorGroup.name = `floor_${cfg.id}_${flIdx}`;
+      floorGroup.userData = { floorIndex: flIdx, floorLabel: fl.floor };
+
+      const floorY = cfg.baseY + flIdx * floorH;
+
+      // 1. 各樓層實體分隔樓板 (Floor Slab)
+      const slabGeo = new THREE.BoxGeometry(cfg.w * 0.98, 0.16, cfg.d * 0.98);
+      const slabMat = new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        roughness: 0.6,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.85
+      });
+      const slab = new THREE.Mesh(slabGeo, slabMat);
+      slab.position.set(cx, floorY + 0.08, cz);
+      floorGroup.add(slab);
+
+      // 2. 室內走廊通道與各教室房間方塊
+      const rooms = fl.rooms || [];
+      const numRooms = rooms.length;
+      if (numRooms > 0) {
+        rooms.forEach((rm, rIdx) => {
+          const meta = getRoomTypeMeta(rm.type);
+          const roomMat = new THREE.MeshStandardMaterial({
+            color: meta.hex,
+            roughness: 0.5,
+            metalness: 0.15,
+            transparent: true,
+            opacity: 0.55
+          });
+
+          let rw, rd, rx, rz;
+          if (cfg.id === 'complex') {
+            const stepX = (cfg.w * 0.94) / numRooms;
+            rw = Math.max(stepX * 0.88, 2.2);
+            rx = cx - cfg.w * 0.47 + stepX * (rIdx + 0.5);
+
+            // 依據平面圖 media_1791539418645.png 精確判定南北隔間縱深 (Z 軸)
+            const isNorthSide = /女生廁所|男生廁所|儲藏室 \(西側\)|圖書館儲藏室|圖書館行政辦公室|專任教師辦公室|主機房|中控室|國中電腦教室|空調機房|機電維護/.test(rm.name);
+            const isSouthSide = /會議中心|群組教室|校長室|高中導師辦公室|環景科技教室|商科情境教室|高中電腦教室|無障礙電梯|教具室|油印室|儲藏室 \(東側\)/.test(rm.name);
+
+            if (isNorthSide) {
+              rd = cfg.d * 0.42;
+              rz = cz - cfg.d * 0.22;
+            } else if (isSouthSide) {
+              rd = cfg.d * 0.42;
+              rz = cz + cfg.d * 0.22;
+            } else {
+              rd = cfg.d * 0.78;
+              rz = cz;
+            }
+          } else if (cfg.axis === 'x') {
+            const stepX = (cfg.w * 0.92) / numRooms;
+            rw = stepX * 0.86;
+            rd = cfg.d * 0.72;
+            rx = cx - cfg.w * 0.46 + stepX * (rIdx + 0.5);
+            rz = cz;
+          } else {
+            const stepZ = (cfg.d * 0.92) / numRooms;
+            rw = cfg.w * 0.72;
+            rd = stepZ * 0.86;
+            rx = cx;
+            // ★ 使用者指示：教學大樓順序校正，rIdx 0 (學務處會議室/301) 位於南端 (+Z)，洗手間/電梯位於北端 (-Z，靠近綠博士廣場)
+            rz = cz + (cfg.d * 0.46) - stepZ * (rIdx + 0.5);
+          }
+
+          const rh = floorH * 0.75;
+          const ry = floorY + rh / 2 + 0.1;
+
+          // 教室隔間實體方塊
+          const roomBoxGeo = new THREE.BoxGeometry(rw, rh, rd);
+          const roomMesh = new THREE.Mesh(roomBoxGeo, roomMat);
+          roomMesh.position.set(rx, ry, rz);
+          roomMesh.userData = {
+            isRoom: true,
+            buildingId: cfg.id,
+            floorIndex: flIdx,
+            roomIndex: rIdx,
+            roomData: rm
+          };
+          floorGroup.add(roomMesh);
+
+          // 教室內立體白色桌面教學設施造型
+          const desk = new THREE.Mesh(
+            new THREE.BoxGeometry(rw * 0.45, 0.4, rd * 0.45),
+            new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4, transparent: true, opacity: 0.65 })
+          );
+          desk.position.set(rx, floorY + 0.3, rz);
+          floorGroup.add(desk);
+
+          // 3D 浮空教室銘牌 Sprite 標籤 (放在房間上方)
+          const sprite = createRoomSpriteLabel(rm.name, rm.type);
+          sprite.position.set(rx, ry + rh * 0.55 + 0.8, rz);
+          sprite.userData = {
+            isRoomLabel: true,
+            buildingId: cfg.id,
+            floorIndex: flIdx,
+            roomIndex: rIdx,
+            roomName: rm.name,
+            roomData: rm
+          };
+          floorGroup.add(sprite);
+          indoorRoomSprites.push(sprite);
+        });
+      }
+
+      buildingIndoorGroup.add(floorGroup);
+    });
+
+    bGroup.add(buildingIndoorGroup);
+    indoorGroups.set(cfg.id, buildingIndoorGroup);
+  });
+}
+
+/**
+ * 切換大樓室內透視視圖 (X-Ray Mode)
+ */
+function toggleIndoorXRay(enable, targetBuildingId = null) {
+  isIndoorXRay = enable;
+  const btnXray = document.getElementById('btn-indoor-xray');
+  const btnPanelXray = document.getElementById('btn-panel-xray');
+
+  if (btnXray) btnXray.classList.toggle('active', enable);
+  if (btnPanelXray) btnPanelXray.classList.toggle('active', enable);
+
+  const targetIds = targetBuildingId ? [targetBuildingId] : (indoorGroups.size > 0 ? Array.from(indoorGroups.keys()) : ['dazhi', 'dayong', 'teaching', 'complex', 'activity', 'west_services', 'male_dorm', 'female_dorm']);
+
+  targetIds.forEach(bId => {
+    const bGroup = buildingObjects.get(bId);
+    const indoorGrp = indoorGroups.get(bId);
+    if (!bGroup) return;
+
+    if (indoorGrp) {
+      indoorGrp.visible = enable;
+    }
+
+    // 遍歷大樓外部 Mesh，切換半透明磨砂玻璃與正常材質
+    bGroup.traverse(child => {
+      if (child.isMesh && !child.userData.isRoom && !child.parent?.name?.startsWith('floor_')) {
+        if (!child.userData.originalMaterial) {
+          child.userData.originalMaterial = child.material;
+        }
+
+        if (enable) {
+          if (!child.userData.xrayMaterial) {
+            child.userData.xrayMaterial = new THREE.MeshStandardMaterial({
+              color: 0x38bdf8,
+              roughness: 0.2,
+              metalness: 0.3,
+              transparent: true,
+              opacity: 0.22,
+              depthWrite: false
+            });
+          }
+          child.material = child.userData.xrayMaterial;
+        } else {
+          child.material = child.userData.originalMaterial;
+        }
+      }
+    });
+  });
+
+  activeXRayBuilding = enable ? targetBuildingId : null;
+}
+
+/**
+ * 依樓層隔離顯示室內空間 (Floor Isolation Filter)
+ */
+function filterIndoorFloor(buildingId, floorIndex) {
+  const indoorGrp = indoorGroups.get(buildingId);
+  if (!indoorGrp) return;
+
+  indoorGrp.children.forEach(flGroup => {
+    const isTarget = (floorIndex === 'all') || (flGroup.userData.floorIndex === floorIndex);
+    flGroup.visible = isTarget;
+  });
+}
+
+/**
+ * 繪製詳情側邊欄之「2D 樓層室內空間格局地圖」與「房間互動卡片」
+ */
+function renderFloorPlan(buildingData, floorIndex) {
+  const container = document.getElementById('floor-plan-grid');
+  const labelEl = document.getElementById('current-floor-label');
+  const floorList = document.getElementById('floor-list');
+  if (!container || !buildingData.floors || !buildingData.floors[floorIndex]) return;
+
+  const currentFloor = buildingData.floors[floorIndex];
+  if (labelEl) {
+    labelEl.innerHTML = `<i class="fa-solid fa-layer-group"></i> ${buildingData.shortName} - ${currentFloor.floor} 室內格局平面圖`;
+  }
+
+  container.innerHTML = '';
+  floorList.innerHTML = '';
+
+  const rooms = currentFloor.rooms || [];
+  if (rooms.length === 0) {
+    container.innerHTML = `<div class="corridor-bar">${currentFloor.desc}</div>`;
+    return;
+  }
+
+  // 1. 室內走廊通道指示條（標記穿堂與方位）
+  const topCorridor = document.createElement('div');
+  topCorridor.className = 'corridor-bar';
+  let corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 文化走廊穿堂 (一樓完全挑空通透) / 採光通廊 <i class="fa-solid fa-arrows-left-right"></i>';
+  if (buildingData.id === 'teaching') {
+    corridorText = '<i class="fa-solid fa-arrow-down"></i> 【南端：第一停車場/操場】 ─── 文化走廊穿堂 (1F) ───> 【北端：綠博士廣場穿堂】 <i class="fa-solid fa-arrow-up"></i>';
+  } else if (buildingData.id === 'dazhi' || buildingData.id === 'dayong') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【西翼教室群】 ─── 文化走廊穿堂 (1F挖空貫通) ─── 【東翼教室群】 <i class="fa-solid fa-arrows-left-right"></i>';
+  } else if (buildingData.id === 'complex') {
+    corridorText = '<i class="fa-solid fa-arrow-left"></i> 【西側：西側樓梯 / 男女洗手間 (靠近校門口側)】 ─── 中央通廊 ───> 【東側：教務處 / 綠博士廣場大穿堂 / 演藝廳 / 無障礙電梯 (靠近操場跑道)】 <i class="fa-solid fa-arrow-right"></i>';
+  } else if (buildingData.id === 'activity') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【西側迎賓門廊 (操場側)】 ─── 綜合運動球場 / 大禮堂 ─── 【東側職務宿舍群】 <i class="fa-solid fa-arrows-left-right"></i>';
+  } else if (buildingData.id === 'male_dorm') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【西側迎賓坡道 / K書中心】 ─── 宿舍生活通廊 ─── 【東側無障礙電梯塔】 <i class="fa-solid fa-arrows-left-right"></i>';
+  } else if (buildingData.id === 'female_dorm') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【南側親水廣場 / 交誼大廳】 ─── 宿舍生活通廊 ─── 【北側中央廚房與餐廳】 <i class="fa-solid fa-arrows-left-right"></i>';
+  } else if (buildingData.id === 'west_services') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【北側體育器材室】 ─── 韻律舞蹈教室 ─── 【南側合作社出入口】 <i class="fa-solid fa-arrows-left-right"></i>';
+  } else if (buildingData.id === 'dining_kitchen') {
+    corridorText = '<i class="fa-solid fa-arrows-left-right"></i> 【學生大餐廳】 ─── 中央供餐保溫動線 ─── 【中央廚房與食農教育園區】 <i class="fa-solid fa-arrows-left-right"></i>';
+  }
+  topCorridor.innerHTML = corridorText;
+  container.appendChild(topCorridor);
+
+  // 2. 房間網格排布
+  const roomsRow = document.createElement('div');
+  roomsRow.className = 'rooms-row';
+
+  rooms.forEach((rm, idx) => {
+    const meta = getRoomTypeMeta(rm.type);
+
+    const cell = document.createElement('div');
+    cell.className = `room-cell type-${rm.type}`;
+    cell.title = `${rm.name} (${meta.label}) - ${rm.desc || ''}`;
+    cell.innerHTML = `
+      <i class="fa-solid ${meta.icon} room-icon"></i>
+      <span class="room-name">${rm.name}</span>
+      <span class="room-type-tag">${meta.label}</span>
+    `;
+
+    // 點擊房間方塊：聚焦該教室，並在 3D 中開啟透視特寫
+    cell.addEventListener('click', () => {
+      document.querySelectorAll('.room-cell').forEach(c => c.classList.remove('active-focus'));
+      cell.classList.add('active-focus');
+      focusOnRoom(buildingData.id, floorIndex, idx, rm);
+    });
+
+    roomsRow.appendChild(cell);
+
+    // 同步生成詳細列表項目
+    const item = document.createElement('div');
+    item.className = 'floor-item';
+    item.innerHTML = `
+      <span class="floor-tag" style="background:${meta.color}">${rm.name}</span>
+      <span class="floor-desc"><strong>${meta.label}</strong>：${rm.desc || currentFloor.desc}</span>
+    `;
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', () => {
+      cell.click();
+    });
+    floorList.appendChild(item);
+  });
+
+  container.appendChild(roomsRow);
+}
+
+/**
+ * 清除當前房間的高亮狀態與發光光柱
+ */
+function clearRoomHighlight() {
+  if (currentHighlightedRoom) {
+    const bGroup = buildingObjects.get(currentHighlightedRoom.buildingId);
+    if (bGroup) {
+      bGroup.traverse(child => {
+        if (child.isMesh && child.userData && child.userData.isRoom) {
+          if (child.userData.originalMat) {
+            child.material = child.userData.originalMat;
+          }
+        }
+        if (child.isSprite && child.userData && child.userData.isRoomLabel) {
+          if (child.userData.origScaleX) {
+            child.scale.set(child.userData.origScaleX, child.userData.origScaleY, 1);
+          }
+        }
+      });
+    }
+
+    if (roomHighlightBeacon && roomHighlightBeacon.parent) {
+      roomHighlightBeacon.parent.remove(roomHighlightBeacon);
+    }
+    roomHighlightBeacon = null;
+    currentHighlightedRoom = null;
+  }
+
+  // 移除 2D 格局圖中的高亮外框
+  document.querySelectorAll('.room-cell.highlight-target').forEach(c => {
+    c.classList.remove('highlight-target');
+  });
+}
+
+/**
+ * 使指定房間單獨發亮，並建立天降光柱與地面脈衝光環
+ */
+function highlightSingleRoom(buildingId, floorIndex, roomIndex, roomData) {
+  clearRoomHighlight();
+
+  const indoorGrp = indoorGroups.get(buildingId);
+  if (!indoorGrp) return null;
+
+  let targetMesh = null;
+  let targetSprite = null;
+
+  // 取得目標樓層 Group
+  const targetFloorGroup = indoorGrp.children.find(fl => fl.userData && fl.userData.floorIndex === floorIndex);
+  if (!targetFloorGroup) return null;
+
+  targetFloorGroup.traverse(child => {
+    if (child.isMesh && child.userData && child.userData.isRoom) {
+      if (!child.userData.originalMat) {
+        child.userData.originalMat = child.material;
+      }
+
+      if (child.userData.roomIndex === roomIndex) {
+        targetMesh = child;
+        // 目標房間：超強金色霓虹發光材質，具備呼吸脈衝光
+        const highlightMat = new THREE.MeshStandardMaterial({
+          color: 0xfff066,
+          emissive: 0xf59e0b,
+          emissiveIntensity: 2.2,
+          roughness: 0.2,
+          metalness: 0.1,
+          transparent: true,
+          opacity: 0.95
+        });
+        child.material = highlightMat;
+      } else {
+        // 同樓層其他房間：暫時調暗並微透，讓目標房間成為全場唯一發光焦點！
+        if (!child.userData.dimMat) {
+          child.userData.dimMat = new THREE.MeshStandardMaterial({
+            color: 0x334155,
+            roughness: 0.8,
+            metalness: 0.0,
+            transparent: true,
+            opacity: 0.18
+          });
+        }
+        child.material = child.userData.dimMat;
+      }
+    }
+
+    if (child.isSprite && child.userData && child.userData.isRoomLabel) {
+      if (!child.userData.origScaleX) {
+        child.userData.origScaleX = child.scale.x;
+        child.userData.origScaleY = child.scale.y;
+      }
+      if (child.userData.roomIndex === roomIndex) {
+        targetSprite = child;
+        child.scale.set(child.userData.origScaleX * 1.5, child.userData.origScaleY * 1.5, 1);
+      } else {
+        child.scale.set(child.userData.origScaleX * 0.75, child.userData.origScaleY * 0.75, 1);
+      }
+    }
+  });
+
+  if (targetMesh) {
+    const beaconGrp = new THREE.Group();
+    beaconGrp.name = 'room_highlight_beacon';
+
+    const rmHeight = targetMesh.geometry.parameters.height || 2.2;
+
+    // 1. 頂部向下倒立金黃色箭頭錐體
+    const coneGeo = new THREE.ConeGeometry(0.7, 1.8, 16);
+    coneGeo.rotateX(Math.PI);
+    const coneMat = new THREE.MeshStandardMaterial({
+      color: 0xffe066,
+      emissive: 0xf59e0b,
+      emissiveIntensity: 2.5,
+      roughness: 0.1,
+      metalness: 0.2
+    });
+    const coneMesh = new THREE.Mesh(coneGeo, coneMat);
+    coneMesh.position.y = rmHeight * 0.5 + 2.2;
+    beaconGrp.add(coneMesh);
+
+    // 2. 垂直穿透性聚光柱 (Spotlight Beam)
+    const beamGeo = new THREE.CylinderGeometry(0.6, 1.6, 5.5, 16, 1, true);
+    const beamMat = new THREE.MeshBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+    beamMesh.position.y = rmHeight * 0.5 + 3.2;
+    beaconGrp.add(beamMesh);
+
+    // 3. 地面擴散雷達光波環 (Pulsing Ripple Ring)
+    const ringGeo = new THREE.RingGeometry(0.8, 1.4, 32);
+    ringGeo.rotateX(-Math.PI / 2);
+    const ringMat = new THREE.MeshBasicMaterial({
+      color: 0xfde047,
+      transparent: true,
+      opacity: 0.85,
+      side: THREE.DoubleSide
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    ringMesh.position.y = -rmHeight * 0.48;
+    beaconGrp.add(ringMesh);
+
+    beaconGrp.position.copy(targetMesh.position);
+    targetFloorGroup.add(beaconGrp);
+    roomHighlightBeacon = beaconGrp;
+
+    currentHighlightedRoom = {
+      buildingId,
+      floorIndex,
+      roomIndex,
+      targetMesh,
+      coneMesh,
+      beamMesh,
+      ringMesh,
+      baseConeY: coneMesh.position.y
+    };
+  }
+
+  return targetMesh;
+}
+
+/**
+ * 每一幀更新發光呼吸燈與光柱指標動畫
+ */
+function updateRoomHighlightAnim(time) {
+  if (!currentHighlightedRoom || !roomHighlightBeacon) return;
+
+  const pulse = (Math.sin(time * 0.007) + 1) * 0.5;
+
+  // 1. 房間實體方塊呼吸發光
+  if (currentHighlightedRoom.targetMesh && currentHighlightedRoom.targetMesh.material) {
+    currentHighlightedRoom.targetMesh.material.emissiveIntensity = 1.3 + pulse * 2.2;
+  }
+
+  // 2. 倒立錐體指針上下漂浮與自轉
+  if (currentHighlightedRoom.coneMesh) {
+    currentHighlightedRoom.coneMesh.position.y = currentHighlightedRoom.baseConeY + Math.sin(time * 0.006) * 0.35;
+    currentHighlightedRoom.coneMesh.rotation.y = time * 0.003;
+  }
+
+  // 3. 垂直光柱呼吸與旋轉
+  if (currentHighlightedRoom.beamMesh) {
+    currentHighlightedRoom.beamMesh.rotation.y = -time * 0.002;
+    currentHighlightedRoom.beamMesh.material.opacity = 0.25 + pulse * 0.35;
+  }
+
+  // 4. 地面雷達波環循環擴散放大並漸隱
+  if (currentHighlightedRoom.ringMesh) {
+    const cycle = (time * 0.0016) % 1.0;
+    const s = 1.0 + cycle * 1.8;
+    currentHighlightedRoom.ringMesh.scale.set(s, s, s);
+    currentHighlightedRoom.ringMesh.material.opacity = (1.0 - cycle) * 0.85;
+  }
+}
+
+/**
+ * 鏡頭聚焦至特定大樓的特定教室，並在 3D 中高亮該空間
+ */
+function focusOnRoom(buildingId, floorIndex, roomIndex, roomData) {
+  // 1. 先開啟該大樓的室內透視
+  toggleIndoorXRay(true, buildingId);
+  filterIndoorFloor(buildingId, floorIndex);
+
+  // 2. 觸發目標空間單獨發亮
+  const targetMesh = highlightSingleRoom(buildingId, floorIndex, roomIndex, roomData);
+
+  // 3. 計算目標房間在世界坐標系中的絕對位置
+  let roomWorldPos = new THREE.Vector3();
+  if (targetMesh) {
+    targetMesh.getWorldPosition(roomWorldPos);
+  } else {
+    const bData = CAMPUS_DATA.find(d => d.id === buildingId);
+    if (bData) {
+      roomWorldPos.set(bData.position.x, bData.position.y + 7 + floorIndex * 3, bData.position.z);
+    }
+  }
+
+  // 4. 鏡頭精準特寫飛向目標房間（不再只是盲目看大樓中心！）
+  const targetPos = new THREE.Vector3(roomWorldPos.x, roomWorldPos.y + 1.2, roomWorldPos.z);
+  const camPos = new THREE.Vector3(
+    roomWorldPos.x + 9.0,
+    roomWorldPos.y + 9.5,
+    roomWorldPos.z + 12.5
+  );
+
+  new TWEEN.Tween(camera.position)
+    .to(camPos, 1000)
+    .easing(TWEEN.Easing.Cubic.Out)
+    .start();
+
+  new TWEEN.Tween(controls.target)
+    .to(targetPos, 1000)
+    .easing(TWEEN.Easing.Cubic.Out)
+    .start();
+
+  // 5. 連動 2D 平面格局圖格子，加上金色呼吸發光效果
+  const cells = document.querySelectorAll('.room-cell');
+  cells.forEach((c, idx) => {
+    if (idx === roomIndex) {
+      c.classList.add('highlight-target');
+      c.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    } else {
+      c.classList.remove('highlight-target');
+    }
+  });
+
+  const listItems = document.querySelectorAll('.floor-item');
+  listItems.forEach((item, idx) => {
+    if (idx === roomIndex) {
+      item.classList.add('active-focus');
+      item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } else {
+      item.classList.remove('active-focus');
+    }
+  });
+}
+
+/**
+ * 初始化全校教室與處室智慧搜尋系統
+ */
+function setupRoomSearchSystem() {
+  allCampusRooms = [];
+  CAMPUS_DATA.forEach(b => {
+    if (b.floors) {
+      b.floors.forEach((fl, flIdx) => {
+        if (fl.rooms) {
+          fl.rooms.forEach((rm, rmIdx) => {
+            allCampusRooms.push({
+              buildingId: b.id,
+              buildingName: b.shortName,
+              floorIndex: flIdx,
+              floorLabel: fl.floor,
+              roomIndex: rmIdx,
+              name: rm.name,
+              type: rm.type,
+              desc: rm.desc || fl.desc
+            });
+          });
+        }
+      });
+    }
+  });
+
+  const modal = document.getElementById('room-search-modal');
+  const input = document.getElementById('room-search-input');
+  const resultsContainer = document.getElementById('search-results-list');
+  const btnClose = document.getElementById('btn-close-search');
+  const btnClear = document.getElementById('btn-clear-search');
+  const filterPills = document.querySelectorAll('#search-filter-pills .filter-pill');
+
+  let activeFilter = 'all';
+
+  const renderSearchResults = () => {
+    const kw = input.value.trim().toLowerCase();
+    resultsContainer.innerHTML = '';
+
+    const filtered = allCampusRooms.filter(item => {
+      // 分類過濾
+      if (activeFilter === 'office' && item.type !== 'office') return false;
+      if (activeFilter === 'classroom_shs' && !(item.name.includes('高中') || item.type === 'classroom' && item.buildingId === 'teaching')) return false;
+      if (activeFilter === 'classroom_jhs' && !(item.name.includes('國中') || item.type === 'classroom' && (item.buildingId === 'dazhi' || item.buildingId === 'dayong'))) return false;
+      if (activeFilter === 'lab' && item.type !== 'lab') return false;
+      if (activeFilter === 'special' && (item.type !== 'special' && item.type !== 'hall')) return false;
+
+      // 關鍵字過濾
+      if (!kw) return true;
+      return item.name.toLowerCase().includes(kw) ||
+             item.buildingName.toLowerCase().includes(kw) ||
+             item.floorLabel.toLowerCase().includes(kw) ||
+             (item.desc && item.desc.toLowerCase().includes(kw));
+    });
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `<div class="no-results"><i class="fa-solid fa-face-meh"></i> 找不到符合「${kw}」的教室或處室，請嘗試其他關鍵字。</div>`;
+      return;
+    }
+
+    filtered.forEach(item => {
+      const meta = getRoomTypeMeta(item.type);
+      const row = document.createElement('div');
+      row.className = 'search-result-item';
+      row.innerHTML = `
+        <div class="result-main">
+          <div class="result-badge" style="background:${meta.color}22; color:${meta.color}; border:1px solid ${meta.color}66">
+            <i class="fa-solid ${meta.icon}"></i>
+          </div>
+          <div class="result-info">
+            <h4>${item.name}</h4>
+            <p><i class="fa-solid fa-location-dot"></i> ${item.buildingName} ${item.floorLabel}・${meta.label} - ${item.desc}</p>
+          </div>
+        </div>
+        <div class="result-locate-btn">
+          <i class="fa-solid fa-crosshairs"></i> 前往定位
+        </div>
+      `;
+
+      row.addEventListener('click', () => {
+        modal.classList.remove('open');
+        focusOnBuilding(item.buildingId);
+        
+        // 切換面板到該樓層 Tab 並單獨聚焦高亮該教室
+        setTimeout(() => {
+          const tabBtn = document.querySelector(`.floor-tab-btn[data-index="${item.floorIndex}"]`);
+          if (tabBtn) tabBtn.click();
+          focusOnRoom(item.buildingId, item.floorIndex, item.roomIndex, item);
+        }, 350);
+      });
+
+      resultsContainer.appendChild(row);
+    });
+  };
+
+  input.addEventListener('input', () => {
+    btnClear.style.display = input.value ? 'block' : 'none';
+    renderSearchResults();
+  });
+
+  btnClear.addEventListener('click', () => {
+    input.value = '';
+    btnClear.style.display = 'none';
+    renderSearchResults();
+    input.focus();
+  });
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeFilter = pill.getAttribute('data-type');
+      renderSearchResults();
+    });
+  });
+
+  btnClose.addEventListener('click', () => {
+    modal.classList.remove('open');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+
+  // 頂部導航按鈕打開搜尋
+  document.getElementById('btn-search-room')?.addEventListener('click', () => {
+    modal.classList.add('open');
+    input.focus();
+    renderSearchResults();
+  });
+
+  // 全域大樓透視按鈕切換
+  document.getElementById('btn-indoor-xray')?.addEventListener('click', () => {
+    toggleIndoorXRay(!isIndoorXRay, selectedBuilding?.id);
+  });
+}

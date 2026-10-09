@@ -35,6 +35,12 @@
       <button id="btn-toggle-nav" class="action-btn secondary mobile-nav-btn" title="景點導覽清單" aria-label="景點導覽清單">
         <i class="fa-solid fa-bars-staggered"></i>
       </button>
+      <button id="btn-search-room" class="action-btn secondary" title="搜尋教室與處室位置" aria-label="搜尋教室與處室位置">
+        <i class="fa-solid fa-door-open"></i>
+      </button>
+      <button id="btn-indoor-xray" class="action-btn secondary" title="切換室內空間透視模式 (X-Ray)" aria-label="切換室內空間透視模式">
+        <i class="fa-solid fa-cube"></i>
+      </button>
       <button id="btn-call-dog" class="action-btn dog-call-btn" title="呼叫祥祥" aria-label="呼叫祥祥">
         <i class="fa-solid fa-paw"></i>
       </button>
@@ -55,6 +61,37 @@
       </button>
     </div>
   </header>
+
+  <!-- 全校教室與處室智慧搜尋面板 -->
+  <div class="room-search-modal" id="room-search-modal">
+    <div class="room-search-box">
+      <div class="search-header">
+        <div class="search-title">
+          <i class="fa-solid fa-magnifying-glass-location"></i>
+          <span>搜尋全校教室與處室位置</span>
+        </div>
+        <button id="btn-close-search" class="search-close-btn" title="關閉搜尋">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="room-search-input" placeholder="輸入教室名稱、處室、科別（如：301、教務處、健康中心、化學、創客...）" autofocus>
+        <button id="btn-clear-search" class="clear-btn" style="display:none;"><i class="fa-solid fa-circle-xmark"></i></button>
+      </div>
+      <div class="search-filter-pills" id="search-filter-pills">
+        <button class="filter-pill active" data-type="all">全部</button>
+        <button class="filter-pill" data-type="office">行政處室</button>
+        <button class="filter-pill" data-type="classroom_shs">高中班級</button>
+        <button class="filter-pill" data-type="classroom_jhs">國中班級</button>
+        <button class="filter-pill" data-type="lab">實驗與專科</button>
+        <button class="filter-pill" data-type="special">特色展演</button>
+      </div>
+      <div class="search-results-list" id="search-results-list">
+        <!-- 搜尋結果項目由 JS 動態生成 -->
+      </div>
+    </div>
+  </div>
 
   <!-- 左側快速建築導航清單（可拖曳移動、可縮小放大） -->
   <nav class="campus-nav" id="campus-nav">
@@ -99,7 +136,30 @@
       </div>
 
       <div class="section-box" id="floors-section">
-        <h3><i class="fa-solid fa-layer-group"></i> 樓層與處室配置</h3>
+        <div class="section-head-bar">
+          <h3><i class="fa-solid fa-layer-group"></i> 樓層與室內空間配置</h3>
+          <button id="btn-panel-xray" class="mini-tool-btn" title="切換此大樓室內透視視圖">
+            <i class="fa-solid fa-cube"></i> <span>室內透視</span>
+          </button>
+        </div>
+        
+        <!-- 樓層切換 Tab 標籤列 -->
+        <div class="floor-tabs" id="floor-tabs">
+          <!-- 由 JS 動態生成各樓層切換按鈕 -->
+        </div>
+
+        <!-- 依平面圖繪製之 2D 樓層室內格局視覺化地圖 -->
+        <div class="floor-layout-box" id="floor-layout-box">
+          <div class="layout-title">
+            <span id="current-floor-label">1F 室內空間格局圖</span>
+            <span class="layout-note"><i class="fa-solid fa-arrows-left-right"></i> 點選教室可高亮定位</span>
+          </div>
+          <div class="floor-plan-grid" id="floor-plan-grid">
+            <!-- 由 JS 動態繪製走廊與各教室空間 -->
+          </div>
+        </div>
+
+        <!-- 樓層房間列表 -->
         <div class="floor-list" id="floor-list">
           <!-- 樓層列表 -->
         </div>

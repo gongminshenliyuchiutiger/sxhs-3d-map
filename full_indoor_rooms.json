@@ -1,0 +1,652 @@
+{
+  "dazhi": {
+    "id": "dazhi",
+    "name": "大智樓 (Da Zhi Building - 3層樓)",
+    "shortName": "大智樓",
+    "enName": "Da Zhi Building",
+    "floors": [
+      {
+        "floor": "1F",
+        "summary": "國中九年級教室、特教資源中心、靜思書軒、烹飪教室與無障礙電梯",
+        "rooms": [
+          {
+            "name": "維修室",
+            "type": "service"
+          },
+          {
+            "name": "靜思書軒",
+            "type": "special"
+          },
+          {
+            "name": "資源班 / 學習中心(2)",
+            "type": "special"
+          },
+          {
+            "name": "特教辦公室",
+            "type": "office"
+          },
+          {
+            "name": "資源班",
+            "type": "special"
+          },
+          {
+            "name": "烹飪教室",
+            "type": "lab"
+          },
+          {
+            "name": "文化走廊 (一樓平面走道)",
+            "type": "corridor"
+          },
+          {
+            "name": "國中教室 901",
+            "type": "classroom"
+          },
+          {
+            "name": "國中教室 902",
+            "type": "classroom"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "無障礙電梯",
+            "type": "accessible"
+          },
+          {
+            "name": "花圃景觀區",
+            "type": "landscape"
+          }
+        ]
+      },
+      {
+        "floor": "2F",
+        "summary": "學校行政核心樞紐（總務、會計、人事）、國中導師室與九年級教室",
+        "rooms": [
+          {
+            "name": "家長會辦公室",
+            "type": "office"
+          },
+          {
+            "name": "檔案室",
+            "type": "service"
+          },
+          {
+            "name": "會計室",
+            "type": "office"
+          },
+          {
+            "name": "總務處",
+            "type": "office"
+          },
+          {
+            "name": "會議室",
+            "type": "office"
+          },
+          {
+            "name": "樓梯 (西側)",
+            "type": "service"
+          },
+          {
+            "name": "國中導師室",
+            "type": "office"
+          },
+          {
+            "name": "人事室",
+            "type": "office"
+          },
+          {
+            "name": "國中教室 903",
+            "type": "classroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "樓梯 (東側)",
+            "type": "service"
+          }
+        ]
+      },
+      {
+        "floor": "3F",
+        "summary": "自然科學實驗室重鎮（化學、生物、物理）、美術教室與跨棟空中走道",
+        "rooms": [
+          {
+            "name": "器械室",
+            "type": "service"
+          },
+          {
+            "name": "化學實驗室",
+            "type": "lab"
+          },
+          {
+            "name": "生物實驗室",
+            "type": "lab"
+          },
+          {
+            "name": "跨棟空中天橋 (通往大勇樓3F)",
+            "type": "corridor"
+          },
+          {
+            "name": "物理實驗室",
+            "type": "lab"
+          },
+          {
+            "name": "美術教室",
+            "type": "lab"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      }
+    ]
+  },
+  "dayong": {
+    "id": "dayong",
+    "name": "大勇樓 (Da Yong Building - 3層樓)",
+    "shortName": "大勇樓",
+    "enName": "Da Yong Building",
+    "floors": [
+      {
+        "floor": "1F",
+        "summary": "國中七、八年級教室、文化走廊與風雨走廊",
+        "rooms": [
+          {
+            "name": "國中教室 701",
+            "type": "classroom"
+          },
+          {
+            "name": "國中教室 702",
+            "type": "classroom"
+          },
+          {
+            "name": "國中教室 703",
+            "type": "classroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "文化走廊 (一樓平面走道)",
+            "type": "corridor"
+          },
+          {
+            "name": "國中教室 801",
+            "type": "classroom"
+          },
+          {
+            "name": "國中教室 802",
+            "type": "classroom"
+          },
+          {
+            "name": "風雨走廊",
+            "type": "corridor"
+          }
+        ]
+      },
+      {
+        "floor": "2F",
+        "summary": "學生諮商輔導中心、資源班學習中心與視聽教室",
+        "rooms": [
+          {
+            "name": "個人諮商室 (1)",
+            "type": "office"
+          },
+          {
+            "name": "團體諮商室",
+            "type": "office"
+          },
+          {
+            "name": "個人諮詢室 (2)",
+            "type": "office"
+          },
+          {
+            "name": "資源班 / 學習中心",
+            "type": "special"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "樓梯 (西側)",
+            "type": "service"
+          },
+          {
+            "name": "輔導處",
+            "type": "office"
+          },
+          {
+            "name": "視聽教室",
+            "type": "special"
+          },
+          {
+            "name": "樓梯 (東側)",
+            "type": "service"
+          }
+        ]
+      },
+      {
+        "floor": "3F",
+        "summary": "藝能專科特色教室（創客、生科、音樂、語言、綜合）與跨棟空中走道",
+        "rooms": [
+          {
+            "name": "多功能教室",
+            "type": "special"
+          },
+          {
+            "name": "語言教室",
+            "type": "lab"
+          },
+          {
+            "name": "音樂教室",
+            "type": "lab"
+          },
+          {
+            "name": "跨棟空中天橋 (通往大智樓3F)",
+            "type": "corridor"
+          },
+          {
+            "name": "創客教室 (Maker Space)",
+            "type": "lab"
+          },
+          {
+            "name": "生活科技教室",
+            "type": "lab"
+          },
+          {
+            "name": "綜合教室",
+            "type": "special"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      }
+    ]
+  },
+  "teaching": {
+    "id": "teaching",
+    "name": "教學大樓 (Teaching Building - 5層樓)",
+    "shortName": "教學大樓",
+    "enName": "Teaching Building",
+    "floors": [
+      {
+        "floor": "1F",
+        "summary": "學務處行政樞紐、學務處會議室、健康中心（保健室）與文化走廊",
+        "rooms": [
+          {
+            "name": "學務處會議室",
+            "type": "office"
+          },
+          {
+            "name": "學務處",
+            "type": "office"
+          },
+          {
+            "name": "文化走廊",
+            "type": "corridor"
+          },
+          {
+            "name": "健康中心 (保健室)",
+            "type": "office"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "2F",
+        "summary": "高中一年級普通教室與文史專科教室",
+        "rooms": [
+          {
+            "name": "高中 103 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 104 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 105 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "文史教室",
+            "type": "lab"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "3F",
+        "summary": "高中二、一年級普通教室與無障礙電梯通廊",
+        "rooms": [
+          {
+            "name": "高中 204 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 205 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 101 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 102 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "無障礙電梯",
+            "type": "accessible"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "4F",
+        "summary": "高中三、二年級普通教室與主樓梯通道",
+        "rooms": [
+          {
+            "name": "高中 305 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 201 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 202 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 203 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "樓梯",
+            "type": "service"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "5F",
+        "summary": "高中三年級普通班級教室",
+        "rooms": [
+          {
+            "name": "高中 301 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 302 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 303 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "高中 304 教室",
+            "type": "classroom"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      }
+    ]
+  },
+  "complex": {
+    "id": "complex",
+    "name": "多功能綜合大樓 (Multi-functional Complex - 6層樓)",
+    "shortName": "多功能綜合大樓",
+    "enName": "Multi-functional Complex Building",
+    "floors": [
+      {
+        "floor": "1F",
+        "summary": "教務處、會議中心、教具油印儲藏室、綠博士廣場連通口",
+        "rooms": [
+          {
+            "name": "會議中心",
+            "type": "special"
+          },
+          {
+            "name": "儲藏室",
+            "type": "service"
+          },
+          {
+            "name": "教務處",
+            "type": "office"
+          },
+          {
+            "name": "教具室 / 油印室",
+            "type": "service"
+          },
+          {
+            "name": "儲藏室",
+            "type": "service"
+          },
+          {
+            "name": "無障礙電梯 / 樓梯",
+            "type": "accessible"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "2F",
+        "summary": "雙溪高中圖書館、圖書儲藏室與研討室",
+        "rooms": [
+          {
+            "name": "圖書館儲藏室",
+            "type": "service"
+          },
+          {
+            "name": "圖書館閱覽大廳",
+            "type": "special"
+          },
+          {
+            "name": "討論室",
+            "type": "office"
+          },
+          {
+            "name": "樓梯",
+            "type": "service"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "3F",
+        "summary": "高中/國中資訊電腦教室、專任教師辦公室與群組研討教室",
+        "rooms": [
+          {
+            "name": "群組教室一",
+            "type": "special"
+          },
+          {
+            "name": "群組教室二",
+            "type": "special"
+          },
+          {
+            "name": "專任教師辦公室",
+            "type": "office"
+          },
+          {
+            "name": "高中電腦教室",
+            "type": "lab"
+          },
+          {
+            "name": "國中電腦教室",
+            "type": "lab"
+          },
+          {
+            "name": "逃生緩降梯 / 樓梯",
+            "type": "service"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "4F",
+        "summary": "校長室、高中導師辦公室、主機房與演藝廳下層連通道",
+        "rooms": [
+          {
+            "name": "校長室",
+            "type": "office"
+          },
+          {
+            "name": "行政辦公室",
+            "type": "office"
+          },
+          {
+            "name": "高中導師辦公室",
+            "type": "office"
+          },
+          {
+            "name": "資訊主機房",
+            "type": "service"
+          },
+          {
+            "name": "演藝廳 (下層進場門廳)",
+            "type": "hall"
+          },
+          {
+            "name": "樓梯",
+            "type": "service"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          },
+          {
+            "name": "女生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "5F",
+        "summary": "演藝廳核心主體（中控室、VIP座位區）、校史室與商科/環景科技教室",
+        "rooms": [
+          {
+            "name": "校史室",
+            "type": "special"
+          },
+          {
+            "name": "環景科技教室",
+            "type": "lab"
+          },
+          {
+            "name": "商科情境教室",
+            "type": "lab"
+          },
+          {
+            "name": "大型演藝廳 / VIP座位區",
+            "type": "hall"
+          },
+          {
+            "name": "演藝廳中控室",
+            "type": "hall"
+          },
+          {
+            "name": "空調機房",
+            "type": "service"
+          },
+          {
+            "name": "樓梯",
+            "type": "service"
+          },
+          {
+            "name": "男生廁所",
+            "type": "restroom"
+          }
+        ]
+      },
+      {
+        "floor": "6F",
+        "summary": "大型演藝廳挑高頂棚、舞台燈光設備與機電空間",
+        "rooms": [
+          {
+            "name": "大型演藝廳 (挑高上層)",
+            "type": "hall"
+          },
+          {
+            "name": "機電維護空間",
+            "type": "service"
+          },
+          {
+            "name": "樓梯",
+            "type": "service"
+          }
+        ]
+      }
+    ]
+  }
+}
